@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
+
+  <!-- Header -->
+  <div>
+    <h1 class="text-3xl font-bold text-gray-800">Welcome, {{ request.user.username }}</h1>
+    <p class="text-gray-600 mt-2">Manage your resumes, profile, and settings from your personal dashboard.</p>
+  </div>
+
+  <!-- Profile Card -->
+  <div class="bg-white rounded-lg shadow p-6 flex flex-col sm:flex-row items-center sm:items-start sm:space-x-6">
+{% if request.user.profile_photo %}
+  <img src="{{ request.user.profile_photo.url }}" alt="Profile Photo"
+       class="w-24 h-24 sm:w-28 sm:h-28 rounded-full object-cover border border-gray-300 shadow-md shrink-0">
+{% else %}
+      <div class="w-28 h-28 flex items-center justify-center rounded-full bg-gray-200 text-gray-500 text-sm border">
+        No Photo
+      </div>
+    {% endif %}
+
+    <div class="mt-4 sm:mt-0">
+      <p class="text-lg font-semibold text-gray-800">{{ request.user.username }}</p>
+      <p class="text-sm text-gray-600 mt-1"><strong>Email:</strong> {{ request.user.email }}</p>
+      <p class="text-sm text-gray-600"><strong>Role:</strong>
+        <span class="inline-block bg-indigo-100 text-indigo-700 text-xs font-semibold px-2 py-1 rounded">
+          {{ request.user.role|title }}
+        </span>
+      </p>
+    </div>
+  </div>
+
+  <!-- Resume Section -->
+  <div class="bg-white rounded-lg shadow p-6">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4">
+      <h2 class="text-xl font-semibold text-gray-800">📄 Your Resumes</h2>
+      <a href="{% url 'resume_create' %}"
+         class="inline-block bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 transition">+ Add Resume</a>
+    </div>
+
+    {% if resumes %}
+      <ul class="space-y-6 divide-y divide-gray-200">
+        {% for resume in resumes %}
+          <li class="pt-4">
+            <div class="flex justify-between items-start">
+              <div>
+                <p class="text-lg text-indigo-700 font-medium">{{ resume.full_name }}</p>
+                <p class="text-sm text-gray-600 mt-1">
+                  Status:
+                  <span class="inline-block bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded-full">
+                    {{ resume.get_status_display }}
+                  </span>
+                  {% if resume.tag %}
+                    <span class="inline-block bg-blue-100 text-blue-600 text-xs px-2 py-1 rounded-full ml-2">
+                      {{ resume.tag }}
+                    </span>
+                  {% else %}
+                    <span class="inline-block bg-gray-100 text-gray-500 text-xs px-2 py-1 rounded-full ml-2">
+                      Draft
+                    </span>
+                  {% endif %}
+                </p>
+              </div>
+              <a href="{% url 'resume_update' resume.pk %}" class="text-blue-600 hover:underline text-sm mt-1">✏️ Edit</a>
+            </div>
+
+            <div class="mt-2 text-sm text-gray-700">
+              <p><strong>Extracted Skills:</strong> {{ resume.skills|default:"Not extracted yet." }}</p>
+
+              {% if resume.resume_file %}
+                <div class="mt-2 flex flex-col sm:flex-row sm:items-center sm:space-x-4 gap-2">
+                  <a href="{{ resume.resume_file.url }}" target="_blank"
+                     class="text-green-600 hover:underline">📄 View PDF</a>
+
+                  <form method="post" action="{% url 'delete_resume_file' resume.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="text-red-500 hover:underline">❌ Delete PDF</button>
+                  </form>
+                </div>
+              {% endif %}
+
+              <a href="{% url 'extract_resume_skills' resume.id %}"
+                 class="inline-block mt-2 text-purple-600 hover:underline">🧠 Extract Skills from Resume</a>
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <div class="text-center py-12">
+        <img src="{% static 'images/empty-resume.svg' %}" alt="No Resumes" class="mx-auto h-40 mb-4">
+        <p class="text-gray-500">You haven’t created any resumes yet.</p>
+        <a href="{% url 'resume_create' %}" class="mt-2 inline-block text-indigo-600 underline">+ Create Resume</a>
+      </div>
+    {% endif %}
+  </div>
+
+  <!-- Staff Moderation Panel -->
+  {% if request.user.is_staff and not request.user.is_superuser %}
+    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-6 rounded shadow">
+      <div class="flex justify-between items-center">
+        <div>
+          <h3 class="text-lg font-bold text-yellow-700">🛡️ Moderation Panel (Staff Only)</h3>
+          <p class="text-yellow-800 text-sm mt-1">Review and manage resumes submitted by users.</p>
+        </div>
+        <a href="{% url 'staff_moderation' %}"
+           class="bg-yellow-400 hover:bg-yellow-500 text-white px-4 py-2 text-sm rounded">Moderate</a>
+      </div>
+    </div>
+  {% endif %}
+
+  <!-- Admin Panel Link -->
+  {% if request.user.is_superuser %}
+    <div class="bg-gray-100 border-l-4 border-gray-400 p-6 rounded shadow">
+      <div class="flex justify-between items-center">
+        <div>
+          <h3 class="text-lg font-bold text-gray-700">🔧 Admin Dashboard</h3>
+          <p class="text-gray-800 text-sm mt-1">Access advanced settings and manage users/site configurations.</p>
+        </div>
+        <a href="/admin/" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 text-sm rounded">Go to Admin</a>
+      </div>
+    </div>
+  {% endif %}
+
+</div>
+{% endblock %}

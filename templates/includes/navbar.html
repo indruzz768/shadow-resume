@@ -1,0 +1,13 @@
+
+<nav class="bg-white shadow-md px-6 py-4 flex justify-between items-center">
+  <div class="text-xl font-bold text-indigo-600">Shadow Resume</div>
+  <div>
+    {% if user.is_authenticated %}
+      <span class="mr-4">Welcome, {{ user.username }}</span>
+      <a href="{% url 'account_logout' %}" class="text-red-500 hover:underline">Logout</a>
+    {% else %}
+      <a href="{% url 'account_login' %}" class="text-blue-500 hover:underline mr-4">Login</a>
+      <a href="{% url 'account_signup' %}" class="text-green-500 hover:underline">Register</a>
+    {% endif %}
+  </div>
+</nav>

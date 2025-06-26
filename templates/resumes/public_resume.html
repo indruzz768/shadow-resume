@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ resume.full_name }} - Public Resume</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+  <div class="max-w-3xl mx-auto bg-white p-8 my-10 shadow-lg rounded-lg">
+    <!-- Header -->
+    <div class="mb-6">
+      <h1 class="text-3xl font-bold text-gray-900">{{ resume.full_name }}</h1>
+      <p class="text-gray-600">{{ resume.headline }}</p>
+      <div class="mt-2 text-sm text-gray-700">
+        📞 {{ resume.phone }} &nbsp; | &nbsp; ✉️ {{ resume.email }} <br>
+        📍 {{ resume.address }}
+      </div>
+    </div>
+
+    <!-- Summary -->
+    <div class="mb-6">
+      <h2 class="text-lg font-semibold text-gray-800 mb-1">📝 Summary</h2>
+      <p class="text-gray-700 whitespace-pre-line">{{ resume.summary }}</p>
+    </div>
+
+    <!-- Skills -->
+    {% if resume.skills %}
+    <div class="mb-6">
+      <h2 class="text-lg font-semibold text-gray-800 mb-1">🛠 Skills</h2>
+      <div class="flex flex-wrap gap-2">
+        {% for skill in skills_list %}
+          <span class="bg-gray-200 text-gray-900 text-sm px-3 py-1 rounded-full shadow-sm">{{ skill }}</span>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+    <!-- Education -->
+    <div class="mb-6">
+      <h2 class="text-lg font-semibold text-gray-800 mb-1">🎓 Education</h2>
+      <p class="text-gray-700 whitespace-pre-line">{{ resume.education }}</p>
+    </div>
+
+    <!-- Experience -->
+    <div class="mb-6">
+      <h2 class="text-lg font-semibold text-gray-800 mb-1">💼 Experience</h2>
+      <p class="text-gray-700 whitespace-pre-line">{{ resume.experience }}</p>
+    </div>
+
+    <!-- Projects -->
+    <div class="mb-6">
+      <h2 class="text-lg font-semibold text-gray-800 mb-1">🚀 Projects</h2>
+      <p class="text-gray-700 whitespace-pre-line">{{ resume.projects }}</p>
+    </div>
+
+    <!-- Certifications -->
+    <div>
+      <h2 class="text-lg font-semibold text-gray-800 mb-1">🏅 Certifications</h2>
+      <p class="text-gray-700 whitespace-pre-line">{{ resume.certifications }}</p>
+    </div>
+  </div>
+
+  <footer class="text-center text-sm text-gray-500 py-4">
+    Powered by ShadowResume · Public Resume View
+  </footer>
+
+</body>
+</html>

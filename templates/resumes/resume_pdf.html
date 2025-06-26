@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ resume.full_name }} - Resume</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      padding: 40px;
+      color: #333;
+      line-height: 1.6;
+    }
+    h1, h2 {
+      margin: 0;
+    }
+    h1 {
+      font-size: 24px;
+      color: #1e293b;
+    }
+    h2 {
+      font-size: 18px;
+      margin-top: 30px;
+      color: #0f172a;
+      border-bottom: 1px solid #cbd5e1;
+      padding-bottom: 4px;
+    }
+    .section {
+      margin-bottom: 15px;
+    }
+    .field {
+      margin: 5px 0;
+    }
+    .skills {
+      margin-top: 10px;
+    }
+    .skills span {
+      background: #f1f5f9;
+      padding: 4px 8px;
+      margin: 2px;
+      display: inline-block;
+      border-radius: 6px;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <h1>{{ resume.full_name }}</h1>
+  <div class="field">
+    <strong>{{ resume.headline }}</strong><br>
+    📞 {{ resume.phone }} | ✉️ {{ resume.email }}<br>
+    📍 {{ resume.address }}
+  </div>
+
+  <!-- Summary -->
+  <div class="section">
+    <h2>📝 Summary</h2>
+    <p>{{ resume.summary }}</p>
+  </div>
+
+  <!-- Skills -->
+  <div class="section">
+    <h2>🛠 Skills</h2>
+    <div class="skills">
+      {% for skill in skills_list %}
+        <span style="background:#eee; padding:4px 8px; margin:4px; display:inline-block; border-radius:6px;">
+          {{ skill }}
+        </span>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Education -->
+  <div class="section">
+    <h2>🎓 Education</h2>
+    <p>{{ resume.education|linebreaks }}</p>
+  </div>
+
+  <!-- Experience -->
+  <div class="section">
+    <h2>💼 Experience</h2>
+    <p>{{ resume.experience|linebreaks }}</p>
+  </div>
+
+  <!-- Projects -->
+  <div class="section">
+    <h2>🚀 Projects</h2>
+    <p>{{ resume.projects|linebreaks }}</p>
+  </div>
+
+  <!-- Certifications -->
+  <div class="section">
+    <h2>🏅 Certifications</h2>
+    <p>{{ resume.certifications|linebreaks }}</p>
+  </div>
+
+</body>
+</html>

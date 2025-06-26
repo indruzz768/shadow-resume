@@ -1,0 +1,26 @@
+
+{% load static %}
+<aside class="w-64 bg-white shadow-md h-screen sticky top-0 hidden md:block">
+  <div class="p-6">
+    <ul class="space-y-4">
+      <li><a href="{% url 'dashboard' %}" class="text-indigo-600 hover:underline">Dashboard</a></li>
+      <li><a href="{% url 'resume_list' %}" class="hover:underline">Resumes</a></li>
+      {% if request.user.is_staff and not request.user.is_admin %}
+      <li><a href="{% url 'staff_moderation' %}" class="text-red-500 hover:underline">Moderation</a></li>
+      {% endif %}
+      <li><a href="{% url 'profile' %}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">👤 Profile</a></li>
+      {% if request.user.is_superuser %}
+  <li>
+    <a href="{% url 'admin_dashboard' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-200">
+      🔧 Admin Dashboard
+    </a>
+  </li>
+{% endif %}
+
+      {% if request.user.is_admin %}
+      <li><a href="{% url 'admin:index' %}" class="hover:underline">Admin</a></li>
+      {% endif %}
+      <li><a href="{% url 'logout' %}" class="text-gray-500 hover:underline">Logout</a></li>
+    </ul>
+  </div>
+</aside>

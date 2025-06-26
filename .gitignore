@@ -1,0 +1,21 @@
+# Django secrets
+.env
+
+# Compiled Python files
+*.py[cod]
+__pycache__/
+*.sqlite3
+
+# Static and media
+/staticfiles/
+/media/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# VSCode
+.vscode/
+
+# Node.js
+/node_modules/

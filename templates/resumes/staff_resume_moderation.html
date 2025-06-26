@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block title %}Moderation Panel{% endblock %}
+
+{% block content %}
+<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <h1 class="text-3xl font-bold text-yellow-700 mb-6">🛡️ Resume Moderation Panel</h1>
+
+  {% if resumes %}
+    <div class="grid grid-cols-1 gap-6">
+      {% for resume in resumes %}
+        <div class="bg-white rounded-lg shadow-md p-6">
+          <div class="flex justify-between items-center">
+            <div>
+              <p class="text-lg font-semibold text-gray-800">{{ resume.full_name }}</p>
+              <p class="text-sm text-gray-600">Email: {{ resume.email }}</p>
+              <p class="text-sm text-gray-600">Submitted by: {{ resume.user.username }}</p>
+              <p class="text-sm text-gray-600">Status: 
+                <span class="inline-block bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-xs font-semibold uppercase">
+                  {{ resume.get_moderation_status_display }}
+                </span>
+              </p>
+              {% if resume.resume_file %}
+                <a href="{{ resume.resume_file.url }}" target="_blank" class="text-indigo-600 hover:underline mt-2 inline-block">
+                  📄 View Uploaded Resume
+                </a>
+              {% endif %}
+            </div>
+            <div class="flex gap-2">
+              <form method="post" action="{% url 'moderate_resume' resume.id %}">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="approve">
+                <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-4 py-1 rounded">
+                  ✅ Approve
+                </button>
+              </form>
+              <form method="post" action="{% url 'moderate_resume' resume.id %}">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="reject">
+                <button type="submit" class="bg-red-600 hover:bg-red-700 text-white px-4 py-1 rounded">
+                  ❌ Reject
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="text-gray-600">No resumes pending moderation at the moment.</p>
+  {% endif %}
+</div>
+{% endblock %}

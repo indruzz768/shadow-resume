@@ -1,0 +1,24 @@
+<h2>Login</h2>
+<form method="POST">
+    {% csrf_token %}
+    <label>Username:</label>
+    <input type="text" name="username" required><br>
+    <label>Password:</label>
+    <input type="password" name="password" required><br>
+    <button type="submit">Login</button>
+</form>
+<a href="{% url 'register' %}">Don't have an account?</a>
+<a href="{% url 'password_reset' %}">Forgot your password?</a>
+
+
+{% if error %}
+    <p style="color: red;">{{ error }}</p>
+{% endif %}
+
+{% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+      <li class="{{ message.tags }}">{{ message }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}

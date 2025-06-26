@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% block title %}Resume Detail{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-md mt-10 space-y-6">
+  <div class="flex justify-between items-center border-b pb-4">
+    <h1 class="text-2xl font-bold text-indigo-800">{{ resume.full_name }}</h1>
+    <span class="px-3 py-1 bg-gray-100 text-sm text-gray-700 rounded">{{ resume.get_status_display }}</span>
+  </div>
+
+  <!-- Action Buttons -->
+  <div class="flex justify-end space-x-4">
+    {% if resume.resume_file and resume.resume_file.url %}
+      <a href="{{ resume.resume_file.url }}" target="_blank" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+        📄 View PDF
+      </a>
+    {% endif %}
+    <a href="{% url 'generate_resume_pdf' resume.pk %}" target="_blank"  class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700">🖨️ Download PDF</a>
+    <a href="{% url 'extract_resume_skills' resume.pk %}" class="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700">
+      🧠 Extract Skills
+    </a>
+  </div>
+
+  <!-- Resume Sections -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div>
+      <h2 class="text-lg font-semibold text-gray-800">📬 Contact Info</h2>
+      <p><strong>Email:</strong> {{ resume.email }}</p>
+      <p><strong>Phone:</strong> {{ resume.phone }}</p>
+      <p><strong>Address:</strong> {{ resume.address }}</p>
+    </div>
+
+    <div>
+      <h2 class="text-lg font-semibold text-gray-800">🧑‍💼 Headline</h2>
+      <p>{{ resume.headline }}</p>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="text-lg font-semibold text-gray-800">📝 Summary</h2>
+    <p class="text-gray-700 whitespace-pre-line">{{ resume.summary }}</p>
+  </div>
+
+  <div>
+    <h2 class="text-lg font-semibold text-gray-800">💼 Experience</h2>
+    <p class="text-gray-700 whitespace-pre-line">{{ resume.experience }}</p>
+  </div>
+
+  <div>
+    <h2 class="text-lg font-semibold text-gray-800">🎓 Education</h2>
+    <p class="text-gray-700 whitespace-pre-line">{{ resume.education }}</p>
+  </div>
+
+  <div>
+    <h2 class="text-lg font-semibold text-gray-800">🏆 Certifications</h2>
+    <p class="text-gray-700 whitespace-pre-line">{{ resume.certifications }}</p>
+  </div>
+
+  <div>
+    <h2 class="text-lg font-semibold text-gray-800">🚀 Projects</h2>
+    <p class="text-gray-700 whitespace-pre-line">{{ resume.projects }}</p>
+  </div>
+
+  <div>
+    <h2 class="text-lg font-semibold text-gray-800">🛠 Skills</h2>
+    <div class="flex flex-wrap gap-2 mt-2">
+      {% for skill in skills_list %}
+        <span class="bg-gray-100 text-sm px-3 py-1 rounded-full text-gray-800 shadow-sm">
+          {{ skill }}
+        </span>
+      {% endfor %}
+    </div>
+  </div>
+
+  {% if request.user.is_staff and resume.moderation_status == "pending" %}
+    <div class="mt-6 bg-yellow-50 border-l-4 border-yellow-400 p-4">
+      <p class="text-sm text-yellow-800">This resume is pending moderation.</p>
+    </div>
+  {% endif %}
+  {% if resume.moderation_status == 'approved' %}
+  <div class="mt-4">
+    <label class="text-sm text-gray-600">🔗 Public Resume Link</label>
+    <div class="flex items-center gap-2">
+      <input type="text" readonly value="{{ request.build_absolute_uri|cut:request.get_full_path }}r/{{ resume.public_uuid }}/" class="w-full px-3 py-2 rounded border text-sm text-gray-800 bg-gray-50">
+      <button onclick="navigator.clipboard.writeText(document.querySelector('input').value)" class="px-3 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm">Copy</button>
+    </div>
+  </div>
+{% endif %}
+
+</div>
+{% endblock %}
