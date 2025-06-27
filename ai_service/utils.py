@@ -1,16 +1,19 @@
-import spacy
+# utils.py
 
-nlp = spacy.load("en_core_web_sm")
-
-# Predefined domain skills — can be extended
-KNOWN_SKILLS =set(skill.title() for skill in {
+# Known skill set
+KNOWN_SKILLS = set(skill.title() for skill in {
     "Python", "Django", "Flask", "Machine Learning", "Deep Learning",
     "REST API", "Natural Language Processing", "PostgreSQL", "HTML",
     "CSS", "JavaScript", "React", "Docker", "Git", "Pandas", "NumPy",
     "Data Analysis", "Power BI", "AWS", "Linux", "Excel"
 })
 
+
 def extract_skills(text):
+    # ✅ Lazy load spaCy
+    import spacy
+    nlp = spacy.load("en_core_web_sm")
+
     doc = nlp(text)
     found_skills = set()
 
@@ -32,10 +35,10 @@ def extract_skills(text):
     return list(found_skills)
 
 
-
-import fitz  # PyMuPDF
-
 def extract_text_from_pdf(file_path):
+    # ✅ Lazy load PyMuPDF
+    import fitz  # PyMuPDF
+
     text = ""
     with fitz.open(file_path) as pdf:
         for page in pdf:
