@@ -8,9 +8,11 @@ https://docs.djangoproject.com/en/5.2/howto/deployment/wsgi/
 """
 
 import os
-
+import psutil
 from django.core.wsgi import get_wsgi_application
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
 
 application = get_wsgi_application()
+
+print(f"🧠 RAM used at boot: {psutil.Process().memory_info().rss / 1024 ** 2:.2f} MB")

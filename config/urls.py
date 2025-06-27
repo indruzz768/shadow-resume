@@ -19,6 +19,7 @@ from django.urls import path, include
 from django.contrib.auth import views as auth_views
 from django.urls import path
 from accounts import views
+from django.views.generic import RedirectView
 
 urlpatterns = [
     # ... other routes
@@ -38,7 +39,7 @@ urlpatterns = [
     path('ai/', include('ai_service.urls')),
     path('accounts/', include('allauth.urls')),
     path("admin-dashboard/", views.admin_dashboard, name="admin_dashboard"),
-
+    path('', RedirectView.as_view(url='/resumes/', permanent=False)),
     
 
 ]
