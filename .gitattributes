@@ -1,0 +1,9 @@
+# Auto-normalize line endings
+* text=auto
+
+# Force specific line endings (optional)
+*.css text eol=lf
+*.js text eol=lf
+*.json text eol=lf
+*.html text eol=lf
+*.py text eol=lf
