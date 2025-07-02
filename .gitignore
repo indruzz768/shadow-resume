@@ -1,24 +1,18 @@
-# Django secrets
-.env
-
-# Compiled Python files
-*.py[cod]
+# Python
 __pycache__/
-*.sqlite3
+*.py[cod]
 
-# Static and media
+# Django
+db.sqlite3
+.env
+.env.*
+
+# Node
+node_modules/
+*.log
+
+# Tailwind build
+static/css/dist/
+
+# Render staticfiles
 /staticfiles/
-/media/
-
-# OS files
-.DS_Store
-Thumbs.db
-
-# VSCode
-.vscode/
-
-# Node.js
-/node_modules/
-
-# Ignore built CSS files
-/static/css/dist/styles.css
