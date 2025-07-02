@@ -2,10 +2,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>{% block title %}Shadow Resume{% endblock %}</title>
-    <link href="{% static 'css/dist/styles.css' %}" rel="stylesheet">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}Shadow Resume{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'css/dist/styles.css' %}">
+  
+  <!-- Favicon -->
+  <link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+
+  <!-- SEO Meta -->
+  <meta name="description" content="Shadow Resume - Build AI-enhanced professional resumes easily.">
+  <meta name="keywords" content="resume builder, AI resume, professional CV, Shadow Resume">
+  <meta name="author" content="Shadow Resume Team">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Shadow Resume">
+  <meta property="og:description" content="Build your professional resume with AI-powered tools.">
+  <meta property="og:url" content="https://shadow-resume.onrender.com">
+  <meta property="og:type" content="website">
+  
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Shadow Resume">
+  <meta name="twitter:description" content="Build your professional resume with AI-powered tools.">
+
+  {% block extra_head %}{% endblock %}
 </head>
+
 <body class="bg-gray-100 text-gray-800">
 
     {% include 'includes/header.html' %}
