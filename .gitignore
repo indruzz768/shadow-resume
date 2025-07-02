@@ -19,3 +19,6 @@ Thumbs.db
 
 # Node.js
 /node_modules/
+
+# Ignore built CSS files
+/static/css/dist/styles.css
