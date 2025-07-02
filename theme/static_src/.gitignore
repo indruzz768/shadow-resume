@@ -1,1 +1,5 @@
-node_modules
+# Ignore root node_modules if it exists
+/node_modules/
+
+# Keep only relevant Tailwind build path
+/static/css/dist/styles.css
