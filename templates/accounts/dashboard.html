@@ -67,7 +67,7 @@
             </div>
 
             <div class="mt-2 text-sm text-gray-700">
-              <p><strong>Extracted Skills:</strong> {{ resume.skills|default:"Not extracted yet." }}</p>
+              <p><strong>Extracted Skills:</strong> {{ resume.skills|default_if_none:"Not extracted yet." }}</p>
 
               {% if resume.resume_file %}
                 <div class="mt-2 flex flex-col sm:flex-row sm:items-center sm:space-x-4 gap-2">
@@ -121,5 +121,8 @@
     </div>
   {% endif %}
 
+  <a href="{% url 'github_login' %}" class="text-sm bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition mt-6 inline-block">
+    🐙 Connect GitHub
+  </a>
 </div>
 {% endblock %}

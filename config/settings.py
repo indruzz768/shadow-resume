@@ -203,9 +203,10 @@ LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 
 # External API settings (you'll need to get these from the services)
-GITHUB_CLIENT_ID = os.environ.get('GITHUB_CLIENT_ID')
-GITHUB_CLIENT_SECRET = os.environ.get('GITHUB_CLIENT_SECRET')
-GITHUB_REDIRECT_URI = 'http://localhost:8000/integrations/github/callback/'
+GITHUB_CLIENT_ID = config('GITHUB_CLIENT_ID')
+GITHUB_CLIENT_SECRET = config('GITHUB_CLIENT_SECRET')
+GITHUB_REDIRECT_URI = 'https://shadow-resume.onrender.com/integrations/github/callback/'
+
 
 LINKEDIN_CLIENT_ID = os.environ.get('LINKEDIN_CLIENT_ID')
 LINKEDIN_CLIENT_SECRET = os.environ.get('LINKEDIN_CLIENT_SECRET')

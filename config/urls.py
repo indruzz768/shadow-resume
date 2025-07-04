@@ -21,6 +21,7 @@ urlpatterns = [
     path('api/', include('resumes.api_urls')),
     path('ai/', include('ai_service.urls')),
     path('accounts/', include('allauth.urls')),
+    path('integrations/', include('integrations.urls')),
 
     # Admin dashboard
     path("admin-dashboard/", views.admin_dashboard, name="admin_dashboard"),

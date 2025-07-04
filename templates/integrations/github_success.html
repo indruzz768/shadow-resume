@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h2 class="text-2xl font-bold">✅ GitHub Data Fetched</h2>
+  <p>Welcome {{ user_data.login }}!</p>
+
+  <h3 class="mt-4 text-lg font-semibold">🧠 Skills</h3>
+  <ul class="list-disc list-inside text-gray-700">
+    {% for skill in skills %}
+      <li>{{ skill }}</li>
+    {% endfor %}
+  </ul>
+
+  <h3 class="mt-4 text-lg font-semibold">💼 Projects</h3>
+  <ul class="list-disc list-inside text-gray-700">
+    {% for project in projects %}
+      <li>{{ project }}</li>
+    {% endfor %}
+  </ul>
+{% endblock %}
