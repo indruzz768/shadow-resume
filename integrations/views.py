@@ -2,6 +2,7 @@ import requests
 from django.shortcuts import redirect, render
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 @login_required
 def github_login(request):
@@ -28,7 +29,11 @@ def github_callback(request):
     token_json = token_response.json()
     access_token = token_json.get('access_token')
 
-    # Now fetch user data
+    if not access_token:
+        messages.error(request, "GitHub authorization failed.")
+        return redirect('dashboard')
+
+    # Fetch user data
     user_data = requests.get(
         'https://api.github.com/user',
         headers={'Authorization': f'token {access_token}'}
@@ -39,22 +44,19 @@ def github_callback(request):
         headers={'Authorization': f'token {access_token}'}
     ).json()
 
-    languages = []
+    languages = set()
     projects = []
 
     for repo in repos_data:
-        projects.append(f"{repo['name']}: {repo.get('description', '')}")
+        projects.append(repo['name'])  # just name; you can add desc if needed
         lang_url = repo['languages_url']
         langs = requests.get(lang_url, headers={'Authorization': f'token {access_token}'}).json()
-        languages.extend(list(langs.keys()))
+        languages.update(langs.keys())
 
-    # Save into Resume model (optional – create logic to update latest resume)
-    request.user.resume_set.first().skills = ', '.join(set(languages))
-    request.user.resume_set.first().projects = '\n'.join(projects)
-    request.user.resume_set.first().save()
+    # ✅ Save to user model (not resume)
+    request.user.github_skills = list(languages)
+    request.user.github_projects = projects
+    request.user.save()
 
-    return render(request, 'integrations/github_success.html', {
-        'user_data': user_data,
-        'projects': projects,
-        'skills': list(set(languages)),
-    })
+    messages.success(request, "✅ GitHub data saved to your profile!")
+    return redirect('dashboard')
