@@ -35,30 +35,19 @@
   {% block extra_head %}{% endblock %}
 </head>
 
-<body class="bg-gray-100 text-gray-800 font-sans antialiased min-h-screen">
-
-  <!-- Header -->
+<body class="bg-gray-100 text-gray-800 font-sans antialiased">
   {% include 'includes/header.html' %}
-
-  <!-- Layout Wrapper -->
-  <div class="flex flex-col lg:flex-row min-h-screen">
-
-    <!-- Sidebar -->
+  
+  <div class="flex min-h-screen">
     {% include 'includes/sidebar.html' %}
-
-    <!-- Main Content -->
     <main class="flex-1 p-6">
-      {% block content %}
-      {% endblock %}
+      {% block content %}{% endblock %}
     </main>
-
   </div>
 
-  <!-- Footer -->
   {% include 'includes/footer.html' %}
 
-  <!-- Chart.js CDN -->
+  <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
 </html>
-
