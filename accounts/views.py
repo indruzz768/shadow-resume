@@ -42,7 +42,11 @@ from resumes.models import Resume
 @login_required
 def dashboard(request):
     resumes = Resume.objects.filter(user=request.user)
-    return render(request, 'accounts/dashboard.html', {'resumes': resumes})
+    # GitHub-related info from user model (ensure fields exist)
+    github_skills = request.user.github_skills if hasattr(request.user, 'github_skills') else []
+    github_projects = request.user.github_projects if hasattr(request.user, 'github_projects') else []
+
+    return render(request, 'accounts/dashboard.html', {'resumes': resumes, 'github_skills': github_skills, 'github_projects': github_projects})
 
 from accounts.decorators import admin_required
 

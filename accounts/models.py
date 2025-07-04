@@ -2,13 +2,14 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser, PermissionsMixin
 from cloudinary.models import CloudinaryField # Ensure you have cloudinary installed
 from django.utils.translation import gettext_lazy as _
-
 class User(AbstractUser, PermissionsMixin):
     ROLE_CHOICES = (
         ('admin', 'Admin'),
         ('staff', 'Staff'),
         ('user', 'User'),
     )
+    github_skills = models.JSONField(default=list, blank=True, null=True)
+    github_projects = models.JSONField(default=list, blank=True, null=True)
     role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='user')
     profile_photo = CloudinaryField('profile_photo', null=True, blank=True)
     is_staff = models.BooleanField(default=False)
