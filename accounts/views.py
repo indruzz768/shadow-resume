@@ -10,9 +10,12 @@ def register_view(request):
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request, user)
+            # Re-authenticate user to determine the backend properly
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(request, username=user.username, password=raw_password)
+            login(request, user)  # Now Django knows the backend
             messages.success(request, "Registration successful. You are now logged in.")
-            return redirect('dashboard')  # or your preferred landing page
+            return redirect('dashboard')
     else:
         form = CustomUserCreationForm()
     return render(request, 'accounts/register.html', {'form': form})
