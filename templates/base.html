@@ -4,18 +4,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <title>{% block title %}Shadow Resume{% endblock %}</title>
+
+  <!-- Favicon & Web Logo -->
   <link rel="icon" href="{% static 'images/shadow.png' %}" type="image/png">
-  <meta property="og:image" content="{% static 'images/shadow.png' %}" alt="Shadow Resume Logo" class="h-10 w-10">
   <meta name="theme-color" content="#1f1f2e">
-  <meta name="msapplication-TileColor" content="#1f1f2e">
-  <meta name="apple-mobile-web-app-title" content="Shadow Resume">
 
   <!-- Tailwind CSS -->
   <link rel="stylesheet" href="{% static 'css/dist/styles.css' %}">
-
-  <!-- Favicon -->
-  <link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
 
   <!-- SEO Meta -->
   <meta name="description" content="Shadow Resume - Build AI-enhanced professional resumes easily.">
@@ -26,32 +23,31 @@
   <meta property="og:title" content="Shadow Resume">
   <meta property="og:description" content="Build your professional resume with AI-powered tools.">
   <meta property="og:url" content="https://shadow-resume.onrender.com">
-  <meta property="og:type" content="website">
   <meta property="og:image" content="{% static 'images/shadow.png' %}">
+  <meta property="og:type" content="website">
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Shadow Resume">
   <meta name="twitter:description" content="Build your professional resume with AI-powered tools.">
-  <meta name="twitter:image" content="{% static 'images/twitter-preview.png' %}">
-
-  <!-- Theme Color for Mobile Browser -->
-  <meta name="theme-color" content="#1e293b">
+  <meta name="twitter:image" content="{% static 'images/shadow.png' %}">
 
   {% block extra_head %}{% endblock %}
 </head>
 
 <body class="bg-gray-100 text-gray-800 font-sans antialiased">
   {% include 'includes/header.html' %}
+  
   <div class="flex min-h-screen">
     {% include 'includes/sidebar.html' %}
     <main class="flex-1 p-6">
       {% block content %}{% endblock %}
     </main>
   </div>
+
   {% include 'includes/footer.html' %}
 
-  <!-- Chart.js for stats if needed -->
+  <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
 </html>
