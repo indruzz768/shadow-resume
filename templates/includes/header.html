@@ -1,15 +1,17 @@
 {% load static %}
 <header class="bg-white shadow-sm border-b border-gray-200 px-6 py-4 flex justify-between items-center sticky top-0 z-50">
   <!-- Logo + Brand Name -->
-  <a href="/" class="flex items-center space-x-3 group">
+<a href="/" class="flex items-center space-x-3 group">
+  <span class="flex items-center space-x-3">
     <img src="{% static 'images/shadow.png' %}"
          alt="Shadow Resume Logo"
-         class="h-10 w-10 rounded-full object-cover ring-2 ring-indigo-500 group-hover:ring-indigo-600 transition-all duration-300 shadow-md"
+         class="h-14 w-14 sm:h-16 sm:w-16 rounded-full object-cover ring-4 ring-indigo-500 shadow-lg transition-all duration-300 hover:scale-105 hover:ring-indigo-600"
          onerror="this.style.display='none'">
-    <span class="text-xl font-bold text-gray-800 group-hover:text-indigo-700 transition">
+    <span class="text-2xl sm:text-3xl font-bold text-gray-800 group-hover:text-indigo-700 transition drop-shadow-lg">
       Shadow Resume
     </span>
-  </a>
+  </span>
+</a>
 
   <!-- User Info / Auth Links -->
   <div class="flex items-center space-x-4">
