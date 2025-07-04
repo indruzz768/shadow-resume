@@ -184,8 +184,11 @@ CLOUDINARY_STORAGE = {
 
 # Media files (user-uploaded content)
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# Only if NOT using cloudinary
+if not config('USE_CLOUDINARY', default=True, cast=bool):
+    MEDIA_URL = '/media/'
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 DATA_UPLOAD_MAX_MEMORY_SIZE = 10485760  # 10 MB
 
 MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
