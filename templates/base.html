@@ -8,7 +8,7 @@
   <title>{% block title %}Shadow Resume{% endblock %}</title>
 
   <!-- Favicon & Web Logo -->
-  <link rel="icon" href="{% static 'images/shadow.png' %}" type="image/png">
+  <link rel="icon" href="{% static 'images/favicon.ico.png' %}" type="image/x-icon">
   <meta name="theme-color" content="#1f1f2e">
 
   <!-- Tailwind CSS -->
@@ -35,19 +35,30 @@
   {% block extra_head %}{% endblock %}
 </head>
 
-<body class="bg-gray-100 text-gray-800 font-sans antialiased">
+<body class="bg-gray-100 text-gray-800 font-sans antialiased min-h-screen">
+
+  <!-- Header -->
   {% include 'includes/header.html' %}
-  
-  <div class="flex min-h-screen">
+
+  <!-- Layout Wrapper -->
+  <div class="flex flex-col lg:flex-row min-h-screen">
+
+    <!-- Sidebar -->
     {% include 'includes/sidebar.html' %}
+
+    <!-- Main Content -->
     <main class="flex-1 p-6">
-      {% block content %}{% endblock %}
+      {% block content %}
+      {% endblock %}
     </main>
+
   </div>
 
+  <!-- Footer -->
   {% include 'includes/footer.html' %}
 
-  <!-- Chart.js -->
+  <!-- Chart.js CDN -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
 </html>
+
