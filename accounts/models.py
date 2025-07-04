@@ -1,5 +1,6 @@
-from django.contrib.auth.models import AbstractUser, PermissionsMixin
 from django.db import models
+from django.contrib.auth.models import AbstractUser, PermissionsMixin
+from cloudinary.models import CloudinaryField # Ensure you have cloudinary installed
 from django.utils.translation import gettext_lazy as _
 
 class User(AbstractUser, PermissionsMixin):
@@ -9,7 +10,7 @@ class User(AbstractUser, PermissionsMixin):
         ('user', 'User'),
     )
     role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='user')
-    profile_photo = models.ImageField(upload_to='profile_photos/', null=True, blank=True)
+    profile_photo = CloudinaryField('profile_photo', null=True, blank=True)
     is_staff = models.BooleanField(default=False)
 
     def is_admin(self):

@@ -15,7 +15,8 @@
   <div class="bg-white rounded-xl shadow p-6 flex flex-col sm:flex-row items-center gap-6 border border-gray-100">
     {% if request.user.profile_photo %}
       <img src="{{ request.user.profile_photo.url }}" alt="Profile Photo"
-           class="w-28 h-28 sm:w-32 sm:h-32 rounded-full object-cover ring-2 ring-indigo-500">
+           class="w-28 h-28 sm:w-32 sm:h-32 rounded-full object-cover ring-2 ring-indigo-500"
+           onerror="this.style.display='none'">
     {% else %}
       <div class="w-28 h-28 flex items-center justify-center rounded-full bg-gray-200 text-gray-500 text-sm border">
         No Photo
