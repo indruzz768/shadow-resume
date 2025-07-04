@@ -1,40 +1,38 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm, CustomLoginForm
 from django.contrib import messages
 from .forms import ProfileUpdateForm
 from django.contrib.auth.decorators import login_required
+
 def register_view(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            user.backend ='allauth.account.auth_backends.AuthenticationBackend'
-            messages.success(request, "Registration successful.")
             login(request, user)
-            return redirect('dashboard')
-        else:
-            messages.error(request, "Please correct the errors.")
+            messages.success(request, "Registration successful. You are now logged in.")
+            return redirect('dashboard')  # or your preferred landing page
     else:
         form = CustomUserCreationForm()
     return render(request, 'accounts/register.html', {'form': form})
 
 def login_view(request):
     if request.method == 'POST':
-        username = request.POST.get('username', '')
-        password = request.POST.get('password', '')
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
+        form = CustomLoginForm(data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
             login(request, user)
-            return redirect('dashboard')  # Redirect to the dashboard or home page
-        else:
-            messages.error(request, "Invalid username or password.")
-    return render(request, 'accounts/login.html')
+            messages.success(request, "Login successful.")
+            return redirect('dashboard')
+    else:
+        form = CustomLoginForm()
+    return render(request, 'accounts/login.html', {'form': form})
 
 def logout_view(request):
     logout(request)
+    messages.info(request, "You have been logged out.")
     return redirect('login')
-
 
 from django.contrib.auth.decorators import login_required
 from resumes.models import Resume

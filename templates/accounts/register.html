@@ -1,31 +1,57 @@
-<h2>Register</h2>
-<form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Register</button>
-</form>
-<a href="{% url 'login' %}">Already have an account?</a>
-{% if form.errors %}
-    <div class="error">
-        <p>Please correct the errors below:</p>
-        <ul>
-            {% for field in form %}
-                {% for error in field.errors %}
-                    <li>{{ error }}</li>
-                {% endfor %}
-            {% endfor %}
-            {% for error in form.non_field_errors %}
-                <li>{{ error }}</li>
-            {% endfor %}
-        </ul>
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Register{% endblock %}
+
+{% block content %}
+<div class="max-w-xl mx-auto mt-10 bg-white shadow-xl rounded-xl p-8">
+  <h2 class="text-2xl font-bold text-center mb-6 text-gray-800">📝 Create Your Account</h2>
+
+  {% if messages %}
+    <div class="mb-4">
+      {% for message in messages %}
+        <div class="text-sm px-4 py-2 rounded bg-green-100 text-green-700 mb-2">
+          {{ message }}
+        </div>
+      {% endfor %}
     </div>
-{% endif %}
-{% if messages %}
-  <ul class="messages">
-    {% for message in messages %}
-      <li class="{{ message.tags }}">{{ message }}</li>
+  {% endif %}
+
+  {% if form.errors %}
+    <div class="mb-4 bg-red-100 text-red-700 text-sm px-4 py-3 rounded">
+      <p class="font-semibold mb-2">Please correct the errors below:</p>
+      <ul class="list-disc list-inside space-y-1">
+        {% for field in form %}
+          {% for error in field.errors %}
+            <li>{{ error }}</li>
+          {% endfor %}
+        {% endfor %}
+        {% for error in form.non_field_errors %}
+          <li>{{ error }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+
+  <form method="POST" class="space-y-5">
+    {% csrf_token %}
+    {% for field in form %}
+      <div>
+        <label class="block mb-1 text-gray-700 font-medium">{{ field.label }}</label>
+        {{ field }}
+        {% if field.errors %}
+          <p class="text-red-500 text-sm mt-1">{{ field.errors|join:", " }}</p>
+        {% endif %}
+      </div>
     {% endfor %}
-  </ul>
-{% endif %}
 
+    <button type="submit" class="w-full bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700">
+      Register
+    </button>
+  </form>
 
+  <p class="text-sm text-center mt-6 text-gray-600">
+    Already have an account?
+    <a href="{% url 'login' %}" class="text-blue-600 underline">Login here</a>
+  </p>
+</div>
+{% endblock %}
