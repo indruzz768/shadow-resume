@@ -50,6 +50,8 @@ INSTALLED_APPS = [
     'tailwind',
     'theme',  
     'widget_tweaks',
+    'cloudinary',  # For media file handling
+    'cloudinary_storage',  # For media file storage
     # Third-party apps
     'rest_framework',
     'corsheaders',
@@ -168,6 +170,17 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # Ensure that Whitenoise can serve static files in production
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static"), os.path.join(BASE_DIR, "theme", "static")]
+
+
+
+# MEDIA configuration for Cloudinary
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': config('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': config('CLOUDINARY_API_KEY'),
+    'API_SECRET': config('CLOUDINARY_API_SECRET'),
+}
 
 # Media files (user-uploaded content)
 
