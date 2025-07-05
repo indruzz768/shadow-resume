@@ -92,7 +92,7 @@
             </div>
 
             <div class="mt-4 flex justify-between items-center text-sm">
-              <a href="{% url 'resume_edit' resume.pk %}" class="text-indigo-600 hover:underline">Edit</a>
+              <a href="{% url 'resume_update' resume.pk %}" class="text-indigo-600 hover:underline">Edit</a>
               <a href="{% url 'resume_detail' resume.pk %}" class="text-blue-600 hover:underline">View</a>
               {% if resume.public_uuid %}
                 <a href="{% url 'public_resume_view' resume.public_uuid %}" class="text-green-600 hover:underline" target="_blank">Public</a>

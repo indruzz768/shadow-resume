@@ -4,7 +4,8 @@ from .forms import CustomUserCreationForm, CustomLoginForm
 from django.contrib import messages
 from .forms import ProfileUpdateForm
 from django.contrib.auth.decorators import login_required
-
+import logging
+logger = logging.getLogger(__name__)
 def register_view(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
@@ -40,14 +41,24 @@ def logout_view(request):
 from django.contrib.auth.decorators import login_required
 from resumes.models import Resume
 
+import logging
+logger = logging.getLogger(__name__)
+
 @login_required
 def dashboard(request):
-    resumes = Resume.objects.filter(user=request.user)
-    # GitHub-related info from user model (ensure fields exist)
-    github_skills = request.user.github_skills if hasattr(request.user, 'github_skills') else []
-    github_projects = request.user.github_projects if hasattr(request.user, 'github_projects') else []
+    try:
+        resumes = Resume.objects.filter(user=request.user)
+        github_skills = request.user.github_skills if hasattr(request.user, 'github_skills') else []
+        github_projects = request.user.github_projects if hasattr(request.user, 'github_projects') else []
 
-    return render(request, 'accounts/dashboard.html', {'resumes': resumes, 'github_skills': github_skills, 'github_projects': github_projects})
+        return render(request, 'accounts/dashboard.html', {
+            'resumes': resumes,
+            'github_skills': github_skills,
+            'github_projects': github_projects
+        })
+    except Exception as e:
+        logger.error(f"Dashboard view error: {e}")
+        raise
 
 from accounts.decorators import admin_required
 
