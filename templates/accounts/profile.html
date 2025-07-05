@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load widget_tweaks %}
+{% load static %}
 
 {% block title %}Profile{% endblock %}
 
@@ -7,56 +7,58 @@
 <div class="max-w-3xl mx-auto mt-10 bg-white shadow-lg rounded-xl p-8">
   <h1 class="text-2xl font-bold text-gray-800 mb-6">👤 Profile Overview</h1>
 
-  <form method="post" enctype="multipart/form-data" class="space-y-6">
-    {% csrf_token %}
+  <!-- Profile Photo + Name -->
+  <div class="flex items-center space-x-6 mb-8">
+    {% if user.profile_photo %}
+      <img src="{{ user.profile_photo.url }}" alt="Profile Photo"
+           class="w-24 h-24 rounded-full object-cover border border-gray-300 shadow-sm">
+    {% else %}
+      <div class="w-24 h-24 rounded-full bg-gray-100 flex items-center justify-center text-gray-400 text-sm">
+        No Photo
+      </div>
+    {% endif %}
 
-    <!-- Profile Photo Section -->
-    <div class="flex items-center space-x-6">
-      {% if user.profile_photo %}
-        <img src="{{ user.profile_photo.url }}" alt="Profile Photo"
-             class="w-24 h-24 rounded-full object-cover border border-gray-300 shadow-sm">
-      {% else %}
-        <div class="w-24 h-24 rounded-full bg-gray-100 flex items-center justify-center text-gray-400 text-sm">
-          No Photo
-        </div>
-      {% endif %}
-      {{ form.profile_photo|add_class:"block w-full text-sm text-gray-700" }}
-    </div>
-
-    <!-- Username -->
     <div>
-      <label for="{{ form.username.id_for_label }}" class="block text-sm font-medium text-gray-700">Username</label>
-      {{ form.username|add_class:"mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200" }}
+      <h2 class="text-xl font-semibold text-gray-800">{{ user.get_full_name|default:user.username }}</h2>
+      <p class="text-sm text-gray-600">{{ user.email }}</p>
+      <span class="inline-block mt-1 text-xs px-2 py-1 rounded bg-indigo-100 text-indigo-700">
+        {% if user.is_superuser %}Superuser
+        {% elif user.is_staff %}Staff
+        {% else %}User
+        {% endif %}
+      </span>
     </div>
+  </div>
 
-    <!-- Email -->
+  <!-- Profile Details -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-gray-700">
     <div>
-      <label for="{{ form.email.id_for_label }}" class="block text-sm font-medium text-gray-700">Email</label>
-      {{ form.email|add_class:"mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200" }}
+      <span class="font-medium text-gray-800">Username:</span><br>
+      <span class="text-gray-600">{{ user.username }}</span>
     </div>
-
-    <!-- First Name -->
     <div>
-      <label for="{{ form.first_name.id_for_label }}" class="block text-sm font-medium text-gray-700">First Name</label>
-      {{ form.first_name|add_class:"mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200" }}
+      <span class="font-medium text-gray-800">Email:</span><br>
+      <span class="text-gray-600">{{ user.email }}</span>
     </div>
-
-    <!-- Last Name -->
     <div>
-      <label for="{{ form.last_name.id_for_label }}" class="block text-sm font-medium text-gray-700">Last Name</label>
-      {{ form.last_name|add_class:"mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200" }}
+      <span class="font-medium text-gray-800">First Name:</span><br>
+      <span class="text-gray-600">{{ user.first_name|default:"—" }}</span>
     </div>
-
-    <!-- Action Buttons -->
-    <div class="pt-4 flex justify-between items-center">
-      <a href="{% url 'dashboard' %}" class="text-gray-500 hover:underline">← Back to Dashboard</a>
-      <a href="{% url 'profile_edit' %}" class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-md font-medium transition">
-        ✏️ Edit Profile
-      </a>
+    <div>
+      <span class="font-medium text-gray-800">Last Name:</span><br>
+      <span class="text-gray-600">{{ user.last_name|default:"—" }}</span>
     </div>
-  </form>
+  </div>
 
-  <!-- Password Reset Link -->
+  <!-- Action Buttons -->
+  <div class="pt-8 flex justify-between items-center">
+    <a href="{% url 'dashboard' %}" class="text-sm text-gray-500 hover:underline">← Back to Dashboard</a>
+    <a href="{% url 'profile_edit' %}" class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-md text-sm font-medium transition">
+      ✏️ Edit Profile
+    </a>
+  </div>
+
+  <!-- Password Reset -->
   <div class="mt-6 border-t pt-4 text-sm text-gray-600 text-center">
     Want to reset your password? 
     <a href="{% url 'account_reset_password' %}" class="text-blue-600 hover:underline">Click here</a>

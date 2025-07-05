@@ -1,15 +1,14 @@
 {% load static %}
 <header class="bg-white shadow-md px-6 py-4 flex justify-between items-center">
-  <!-- Left: Logo + Brand -->
+  <!-- 🔹 Left: Brand + Mobile Toggle -->
   <div class="flex items-center gap-4">
-    <!-- Mobile Menu Button -->
-    <button id="mobile-menu-button" class="md:hidden text-gray-700 p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+    <button id="mobile-menu-button" class="md:hidden text-gray-700 p-2 focus:outline-none">
       <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
       </svg>
     </button>
 
-    <a href="/" class="flex items-center gap-3 group">
+    <a href="{% url 'dashboard' %}" class="flex items-center gap-3 group">
       <img src="{% static 'images/shadow.png' %}" alt="Shadow Resume Logo"
            class="h-10 w-10 rounded-full object-cover ring-2 ring-indigo-500 group-hover:ring-indigo-600 transition-all duration-200 shadow"
            onerror="this.style.display='none'">
@@ -19,19 +18,30 @@
     </a>
   </div>
 
-  <!-- Right: Auth info -->
-  <div class="flex items-center gap-4">
+  <!-- 🔸 Right: Profile Dropdown or Login -->
+  <div class="relative group">
     {% if request.user.is_authenticated %}
-      <span class="text-sm text-gray-700">Hi, {{ request.user.username }}</span>
+    <button class="flex items-center gap-2 focus:outline-none">
       {% if request.user.profile_photo %}
-        <img src="{{ request.user.profile_photo.url }}" alt="Profile Photo"
-             class="h-9 w-9 rounded-full object-cover border border-gray-300 shadow-sm ring-1 ring-indigo-300">
+        <img src="{{ request.user.profile_photo.url }}" alt="Profile"
+             class="h-9 w-9 rounded-full ring ring-indigo-400 object-cover">
       {% else %}
         <div class="h-9 w-9 flex items-center justify-center rounded-full bg-gray-200 text-xs text-gray-500 border">
           No Photo
         </div>
       {% endif %}
-      <a href="{% url 'account_logout' %}" class="text-sm text-red-600 hover:underline">Logout</a>
+      <span class="text-sm text-gray-800 hidden sm:inline">{{ request.user.username }}</span>
+      <i class="fas fa-chevron-down text-xs"></i>
+    </button>
+
+    <!-- Dropdown -->
+    <div class="absolute right-0 mt-2 w-48 bg-white rounded shadow-lg z-50 hidden group-hover:block">
+      <a href="{% url 'profile' %}" class="block px-4 py-2 text-sm hover:bg-gray-100">👤 Profile</a>
+      {% if request.user.is_superuser %}
+        <a href="{% url 'admin_dashboard' %}" class="block px-4 py-2 text-sm hover:bg-gray-100">⚙️ Admin Dashboard</a>
+      {% endif %}
+      <a href="{% url 'account_logout' %}" class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100">🚪 Logout</a>
+    </div>
     {% else %}
       <a href="{% url 'account_login' %}" class="text-sm text-blue-600 hover:underline">Login</a>
     {% endif %}

@@ -1,176 +1,121 @@
 {% extends 'base.html' %}
 {% load static %}
+
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
+<div class="max-w-6xl mx-auto">
+  <h1 class="text-2xl font-bold text-gray-800 mb-6">👋 Welcome, {{ request.user.first_name|default:request.user.username }}</h1>
 
-  <!-- Greeting -->
-  <div>
-    <h1 class="text-3xl font-bold text-gray-900">Welcome, {{ request.user.username }}</h1>
-    <p class="text-gray-600 mt-1">Manage your resumes, profile, and GitHub portfolio below.</p>
-  </div>
-
-  <!-- Profile Card -->
-  <div class="bg-white rounded-xl shadow p-6 flex flex-col sm:flex-row items-center gap-6 border border-gray-100">
+  <!-- 👤 Profile Card -->
+  <div class="bg-white rounded-xl shadow p-6 border border-gray-100 mb-6 flex items-center gap-6">
     {% if request.user.profile_photo %}
       <img src="{{ request.user.profile_photo.url }}" alt="Profile Photo"
-           class="w-28 h-28 sm:w-32 sm:h-32 rounded-full object-cover ring-2 ring-indigo-500"
-           onerror="this.style.display='none'">
+           class="h-20 w-20 rounded-full object-cover border ring-2 ring-indigo-500">
     {% else %}
-      <div class="w-28 h-28 flex items-center justify-center rounded-full bg-gray-200 text-gray-500 text-sm border">
+      <div class="h-20 w-20 rounded-full bg-gray-200 flex items-center justify-center text-gray-500 text-sm">
         No Photo
       </div>
     {% endif %}
+
     <div>
-      <p class="text-xl font-semibold text-gray-800">{{ request.user.username }}</p>
-      <p class="text-sm text-gray-600"><strong>Email:</strong> {{ request.user.email }}</p>
-      <p class="text-sm text-gray-600">
-        <strong>Role:</strong>
-        <span class="bg-indigo-100 text-indigo-700 text-xs font-semibold px-2 py-1 rounded">
-          {{ request.user.role|title }}
-        </span>
+      <h2 class="text-xl font-semibold text-gray-800">{{ request.user.get_full_name|default:request.user.username }}</h2>
+      <p class="text-sm text-gray-600">{{ request.user.email }}</p>
+      <p class="text-sm text-indigo-600 mt-1">
+        {% if request.user.is_superuser %}Superuser{% elif request.user.is_staff %}Staff{% else %}User{% endif %}
       </p>
+      <a href="{% url 'profile' %}" class="inline-block mt-2 text-sm text-blue-600 hover:underline">Edit Profile →</a>
     </div>
   </div>
 
-  <!-- Resume Section -->
-  <div class="bg-white rounded-xl shadow p-6 border border-gray-100">
-    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4">
+  <!-- 🐙 GitHub Section -->
+  <div class="bg-white rounded-xl shadow p-6 border border-gray-100 mb-6">
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-xl font-bold text-gray-800">🐙 GitHub Portfolio</h2>
+      {% if not github_projects and not github_skills %}
+        <a href="{% url 'github_login' %}" class="text-sm bg-indigo-600 text-white px-3 py-1 rounded hover:bg-indigo-700 transition">
+          + Connect GitHub
+        </a>
+      {% endif %}
+    </div>
+
+    {% if github_projects %}
+    <div class="mb-3">
+      <h3 class="font-semibold text-gray-700">Projects:</h3>
+      <ul class="list-disc list-inside text-sm text-gray-600">
+        {% for project in github_projects %}
+        <li>{{ project }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+
+    {% if github_skills %}
+    <div>
+      <h3 class="font-semibold text-gray-700">Skills:</h3>
+      <p class="text-sm text-gray-600">{{ github_skills|join:", " }}</p>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- 📄 Resume Section -->
+  <div class="mb-6">
+    <div class="flex justify-between items-center mb-4">
       <h2 class="text-xl font-bold text-gray-800">📄 Your Resumes</h2>
-      <a href="{% url 'resume_create' %}"
-         class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md transition-all">+ Add Resume</a>
+      <a href="{% url 'resume_create' %}" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded text-sm">+ Create New</a>
     </div>
 
     {% if resumes %}
-      <ul class="space-y-6 divide-y divide-gray-200">
-        {% for resume in resumes %}
-          <li class="pt-4">
-            <div class="flex justify-between items-start">
-              <div>
-                <p class="text-lg font-medium text-indigo-700">{{ resume.full_name }}</p>
-                <p class="text-sm text-gray-600 mt-1">
-                  Status:
-                  <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">
-                    {{ resume.get_status_display }}
-                  </span>
-                  {% if resume.tag %}
-                    <span class="bg-blue-100 text-blue-600 text-xs px-2 py-1 rounded-full ml-2">
-                      {{ resume.tag }}
-                    </span>
-                  {% else %}
-                    <span class="bg-gray-200 text-gray-500 text-xs px-2 py-1 rounded-full ml-2">Draft</span>
-                  {% endif %}
-                </p>
-              </div>
-              <a href="{% url 'resume_update' resume.pk %}" class="text-sm text-blue-600 hover:underline mt-1">✏️ Edit</a>
-            </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {% for resume in resumes %}
+      <div class="bg-white shadow rounded-xl p-5 flex flex-col justify-between">
+        <div>
+          <h3 class="text-lg font-semibold text-gray-800">{{ resume.full_name }}</h3>
+          <p class="text-sm text-gray-600 mb-2">{{ resume.headline|default:"No headline" }}</p>
 
-            <div class="mt-2 text-sm text-gray-700">
-              <p><strong>Extracted Skills:</strong> {{ resume.skills|default_if_none:"Not extracted yet." }}</p>
+          <span class="inline-block text-xs font-medium px-2 py-1 rounded-full mb-2
+            {% if resume.status == 'draft' %} bg-yellow-100 text-yellow-800
+            {% elif resume.status == 'published' %} bg-green-100 text-green-800
+            {% elif resume.status == 'job_ready' %} bg-blue-100 text-blue-800
+            {% else %} bg-gray-100 text-gray-800 {% endif %}">
+            {{ resume.status|capfirst }}
+          </span>
 
-              {% if resume.resume_file %}
-                <div class="mt-2 flex flex-col sm:flex-row sm:items-center sm:space-x-4 gap-2">
-                  <a href="{{ resume.resume_file.url }}" target="_blank" class="text-green-600 hover:underline">📄 View PDF</a>
-                  <form method="post" action="{% url 'delete_resume_file' resume.id %}">
-                    {% csrf_token %}
-                    <button type="submit" class="text-red-500 hover:underline">❌ Delete PDF</button>
-                  </form>
-                </div>
-              {% endif %}
+          {% if resume.skills %}
+          <p class="text-sm text-gray-700 mt-2">
+            <strong>Skills:</strong> {{ resume.skills }}
+          </p>
+          {% endif %}
+        </div>
 
-              <a href="{% url 'extract_resume_skills' resume.id %}"
-                 class="inline-block mt-2 text-purple-600 hover:underline">🧠 Extract Skills from Resume</a>
-            </div>
-          </li>
-        {% endfor %}
-      </ul>
-    {% else %}
-      <div class="text-center py-12">
-        <img src="{% static 'images/empty-resume.svg' %}" alt="No Resumes Found" class="mx-auto h-40 mb-4">
-        <p class="text-gray-500">You haven’t created any resumes yet.</p>
-        <a href="{% url 'resume_create' %}" class="mt-2 inline-block text-indigo-600 underline">+ Create Resume</a>
+        <div class="mt-4 flex justify-between items-center text-sm">
+          <a href="{% url 'resume_edit' resume.pk %}" class="text-indigo-600 hover:underline">Edit</a>
+          <a href="{% url 'resume_detail' resume.pk %}" class="text-blue-600 hover:underline">View</a>
+          <a href="{% url 'public_resume_view' resume.public_uuid %}" class="text-green-600 hover:underline" target="_blank">Public</a>
+        </div>
       </div>
-    {% endif %}
-  </div>
-
-<!-- GitHub Portfolio Section -->
-<div class="bg-white rounded-xl shadow p-6 border border-gray-100 space-y-6">
-  <!-- Header -->
-  <div class="flex justify-between items-center">
-    <h2 class="text-xl font-bold text-gray-800">🐙 GitHub Portfolio</h2>
-    {% if request.user.github_skills or request.user.github_projects %}
-      <a href="{% url 'github_login' %}" class="text-sm bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition">
-        🔄 Sync GitHub
-      </a>
+      {% endfor %}
+    </div>
     {% else %}
-      <a href="{% url 'github_login' %}" class="text-sm bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 transition">
-        🐙 Connect GitHub
-      </a>
+    <p class="text-sm text-gray-600">No resumes yet. Start by creating one!</p>
     {% endif %}
   </div>
 
-  <!-- Skills and Projects -->
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-    <!-- GitHub Skills -->
-    <div>
-      <h3 class="text-lg font-semibold text-gray-700 mb-2">🧠 Skills</h3>
-      {% if request.user.github_skills %}
-        <ul class="flex flex-wrap gap-2">
-          {% for skill in request.user.github_skills %}
-            <li class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-medium">
-              {{ skill }}
-            </li>
-          {% endfor %}
-        </ul>
-      {% else %}
-        <p class="text-sm text-gray-500">No skills found.</p>
-      {% endif %}
-    </div>
-
-    <!-- GitHub Projects -->
-    <div>
-      <h3 class="text-lg font-semibold text-gray-700 mb-2">💼 Projects</h3>
-      {% if request.user.github_projects %}
-        <ul class="list-disc pl-6 text-sm text-gray-700 space-y-1">
-          {% for project in request.user.github_projects %}
-            <li>{{ project }}</li>
-          {% endfor %}
-        </ul>
-      {% else %}
-        <p class="text-sm text-gray-500">No public repositories found.</p>
-      {% endif %}
-    </div>
-  </div>
-</div>
-
-
-  <!-- Staff Moderation Panel -->
+  <!-- 🛡️ Staff Panel -->
   {% if request.user.is_staff and not request.user.is_superuser %}
-    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-6 rounded shadow">
-      <div class="flex justify-between items-center">
-        <div>
-          <h3 class="text-lg font-bold text-yellow-700">🛡️ Moderation Panel (Staff Only)</h3>
-          <p class="text-yellow-800 text-sm mt-1">Review and manage resumes submitted by users.</p>
-        </div>
-        <a href="{% url 'staff_moderation' %}"
-           class="bg-yellow-400 hover:bg-yellow-500 text-white px-4 py-2 text-sm rounded">Moderate</a>
-      </div>
-    </div>
+  <div class="bg-white shadow rounded-xl p-6 mb-6">
+    <h2 class="text-lg font-semibold text-red-700 mb-2">🛡️ Staff Moderation Access</h2>
+    <a href="{% url 'staff_moderation' %}" class="text-sm text-indigo-600 hover:underline">Go to Moderation Panel →</a>
+  </div>
   {% endif %}
 
-  <!-- Admin Panel -->
+  <!-- ⚙️ Admin Tools -->
   {% if request.user.is_superuser %}
-    <div class="bg-gray-100 border-l-4 border-gray-400 p-6 rounded shadow">
-      <div class="flex justify-between items-center">
-        <div>
-          <h3 class="text-lg font-bold text-gray-700">🔧 Admin Dashboard</h3>
-          <p class="text-gray-800 text-sm mt-1">Access advanced settings and manage users/site configurations.</p>
-        </div>
-        <a href="/admin/" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 text-sm rounded">Go to Admin</a>
-      </div>
-    </div>
+  <div class="bg-white shadow rounded-xl p-6">
+    <h2 class="text-lg font-semibold text-gray-800 mb-2">⚙️ Admin Tools</h2>
+    <a href="{% url 'admin_dashboard' %}" class="text-sm text-indigo-600 hover:underline">Open Admin Dashboard →</a>
+  </div>
   {% endif %}
-
 </div>
 {% endblock %}
+

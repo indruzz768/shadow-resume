@@ -1,3 +1,4 @@
+<!-- base.html -->
 {% load static %}
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
@@ -10,15 +11,14 @@
   <meta name="author" content="Shadow Resume Team">
 
   <link rel="stylesheet" href="{% static 'css/dist/styles.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-  <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://shadow-resume.onrender.com/">
   <meta property="og:title" content="{% block og_title %}Shadow Resume | AI Resume Builder{% endblock %}">
   <meta property="og:description" content="{% block og_description %}Build, preview, and share resumes using AI skills matching.{% endblock %}">
   <meta property="og:image" content="{% static 'images/shadow_preview.png' %}">
 
-  <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="{% block twitter_title %}Shadow Resume{% endblock %}">
   <meta name="twitter:description" content="{% block twitter_description %}Build job-ready resumes instantly with AI support.{% endblock %}">
@@ -29,12 +29,9 @@
 </head>
 
 <body class="bg-gray-100 text-gray-800 font-sans antialiased relative">
-
   {% include 'includes/header.html' %}
 
   <div id="layout" class="relative flex min-h-screen">
-
-    <!-- Sidebar -->
     {% include 'includes/sidebar.html' %}
 
     <!-- Overlay -->
@@ -66,6 +63,5 @@
       });
     }
   </script>
-
 </body>
 </html>
