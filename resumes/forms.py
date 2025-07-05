@@ -1,10 +1,16 @@
 from django import forms
+from django.core.exceptions import ValidationError
 from .models import Resume
+import os
 
 class ResumeForm(forms.ModelForm):
     class Meta:
         model = Resume
-        fields = ['full_name', 'phone', 'headline', 'summary', 'skills', 'education', 'experience', 'projects', 'certifications', 'resume_file', 'status', 'moderation_status', 'address', 'email']
+        fields = [
+            'full_name', 'phone', 'headline', 'summary', 'skills', 'education',
+            'experience', 'projects', 'certifications', 'resume_file', 'status',
+            'moderation_status', 'address', 'email'
+        ]
         widgets = {
             'skills': forms.Textarea(attrs={'placeholder': 'Enter skills separated by commas'}),
             'education': forms.Textarea(attrs={'placeholder': 'Enter education details'}),
@@ -37,26 +43,24 @@ class ResumeForm(forms.ModelForm):
         if user and (not user.is_staff or user.is_superuser):
             self.fields.pop('moderation_status', None)
 
-            
-        
-
     def clean_resume_file(self):
-        file = self.cleaned_data.get('resume_file', False)
+        file = self.cleaned_data.get('resume_file')
         if file:
-            if not file.name.endswith('.pdf'):
-                raise forms.ValidationError("Only PDF files are allowed.")
-            if file.size > 5 * 1024 * 1024:  # 5 MB limit
-                raise forms.ValidationError("File too large. Size should not exceed 5 MB.")
+            try:
+                if file.size > 5 * 1024 * 1024:
+                    raise ValidationError("File size exceeds 5 MB.")
+            except FileNotFoundError:
+                raise ValidationError("Uploaded file not found. Please re-upload.")
         return file
-    
+
     def clean_status(self):
         status = self.cleaned_data.get('status')
         if status:
             return status.strip().lower()
         return status
-    
+
     def clean_moderation_status(self):
         moderation_status = self.cleaned_data.get('moderation_status')
         if moderation_status:
             return moderation_status.strip().lower()
-        return moderation_status            
+        return moderation_status
