@@ -2,66 +2,99 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
-<head>
-  <title>{% block title %}Shadow Resume | Create Smart Resumes{% endblock %}</title>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="{% block description %}Generate AI-powered, job-ready resumes instantly.{% endblock %}">
-  <meta name="keywords" content="resume builder, AI resume, Shadow Resume, Django resume, job resume">
-  <meta name="author" content="Shadow Resume Team">
+  <head>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <title>
+      {% block title %}Shadow Resume | Create Smart Resumes{% endblock %}
+    </title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="{% block description %}Generate AI-powered, job-ready resumes instantly.{% endblock %}">
+    <meta name="keywords" content="resume builder, AI resume, Shadow Resume, Django resume, job resume">
+    <meta name="author" content="Shadow Resume Team">
 
-  <link rel="stylesheet" href="{% static 'css/dist/styles.css' %}">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/dist/styles.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://shadow-resume.onrender.com/">
-  <meta property="og:title" content="{% block og_title %}Shadow Resume | AI Resume Builder{% endblock %}">
-  <meta property="og:description" content="{% block og_description %}Build, preview, and share resumes using AI skills matching.{% endblock %}">
-  <meta property="og:image" content="{% static 'images/shadow_preview.png' %}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://shadow-resume.onrender.com/">
+    <meta property="og:title" content="{% block og_title %}Shadow Resume | AI Resume Builder{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}Build, preview, and share resumes using AI skills matching.{% endblock %}">
+    <meta property="og:image" content="{% static 'images/shadow_preview.png' %}">
 
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="{% block twitter_title %}Shadow Resume{% endblock %}">
-  <meta name="twitter:description" content="{% block twitter_description %}Build job-ready resumes instantly with AI support.{% endblock %}">
-  <meta name="twitter:image" content="{% static 'images/shadow_preview.png' %}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{% block twitter_title %}Shadow Resume{% endblock %}">
+    <meta name="twitter:description" content="{% block twitter_description %}Build job-ready resumes instantly with AI support.{% endblock %}">
+    <meta name="twitter:image" content="{% static 'images/shadow_preview.png' %}">
 
-  <meta name="theme-color" content="#4f46e5">
-  <link rel="icon" href="{% static 'images/favicon.ico.png' %}" type="image/x-icon">
-</head>
+    <meta name="theme-color" content="#4f46e5">
+    <link rel="icon" href="{% static 'images/favicon.ico.png' %}" type="image/x-icon">
+  </head>
 
-<body class="bg-gray-100 text-gray-800 font-sans antialiased relative">
-  {% include 'includes/header.html' %}
+  <body class="bg-gray-100 text-gray-800 font-sans antialiased relative">
+    {% include 'includes/header.html' %}
 
-  <div id="layout" class="relative flex min-h-screen">
-    {% include 'includes/sidebar.html' %}
+    <div id="layout" class="relative flex min-h-screen">
+      <!-- Overlay (under sidebar) -->
+      <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 hidden transition-opacity duration-300 z-30 md:hidden"></div>
 
-    <!-- Overlay -->
-    <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden md:hidden transition-opacity duration-300"></div>
+      <!-- Sidebar (on top of overlay) -->
+      {% include 'includes/sidebar.html' %}
 
-    <!-- Main content -->
-    <main class="flex-1 p-6 z-10 relative">
-      {% block content %}{% endblock %}
-    </main>
-  </div>
+      <!-- Main content -->
+      <main class="flex-1 p-6 z-10 relative">
+        {% block content %}{% endblock %}
+      </main>
+    </div>
 
-  {% include 'includes/footer.html' %}
+    {% include 'includes/footer.html' %}
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script>
-    const btn = document.getElementById('mobile-menu-button');
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('overlay');
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+      const btn = document.getElementById('mobile-menu-button');
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('overlay');
+      const sidebarLinks = sidebar?.querySelectorAll('a');
 
-    if (btn && sidebar && overlay) {
-      btn.addEventListener('click', () => {
-        sidebar.classList.toggle('-translate-x-full');
-        overlay.classList.toggle('hidden');
-      });
-
-      overlay.addEventListener('click', () => {
+      function closeSidebar() {
         sidebar.classList.add('-translate-x-full');
         overlay.classList.add('hidden');
+      }
+
+      if (btn && sidebar && overlay) {
+        btn.addEventListener('click', () => {
+          sidebar.classList.toggle('-translate-x-full');
+          overlay.classList.toggle('hidden');
+        });
+
+        overlay.addEventListener('click', () => {
+          closeSidebar();
+        });
+
+        sidebarLinks?.forEach(link => {
+          link.addEventListener('click', () => {
+            // Only close on mobile
+            if (window.innerWidth < 768) {
+              closeSidebar();
+            }
+          });
+        });
+      }
+    </script>
+    <script>
+      const dropdownBtn = document.getElementById('profileDropdownBtn');
+      const dropdown = document.getElementById('profileDropdown');
+
+      document.addEventListener('click', function (event) {
+        const isClickInside = dropdown?.contains(event.target) || dropdownBtn?.contains(event.target);
+        if (!isClickInside) {
+          dropdown?.classList.add('hidden');
+        }
       });
-    }
-  </script>
-</body>
+
+      dropdownBtn?.addEventListener('click', function () {
+        dropdown?.classList.toggle('hidden');
+      });
+    </script>
+  </body>
 </html>
