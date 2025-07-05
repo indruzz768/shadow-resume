@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings
 from django.contrib.auth import get_user_model
 import uuid
+from django.core.files.storage import default_storage
 
 User = get_user_model()
 
@@ -54,3 +55,7 @@ class Resume(models.Model):
         if self.moderation_status:
             self.moderation_status = self.moderation_status.strip()
         super().save(*args, **kwargs)
+
+    @property
+    def has_resume_file(self):
+        return self.resume_file and default_storage.exists(self.resume_file.name)

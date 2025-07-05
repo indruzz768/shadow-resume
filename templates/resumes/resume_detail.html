@@ -5,19 +5,28 @@
 <div class="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-md mt-10 space-y-6">
   <div class="flex justify-between items-center border-b pb-4">
     <h1 class="text-2xl font-bold text-indigo-800">{{ resume.full_name }}</h1>
-    <span class="px-3 py-1 bg-gray-100 text-sm text-gray-700 rounded">{{ resume.get_status_display }}</span>
+    <span class="px-3 py-1 bg-gray-100 text-sm text-gray-700 rounded">
+      {{ resume.get_status_display }}
+    </span>
   </div>
 
   <!-- Action Buttons -->
-  <div class="flex justify-end space-x-4">
-    {% if resume.resume_file and resume.resume_file.url %}
-      <a href="{{ resume.resume_file.url }}" target="_blank" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
-        📄 View PDF
+  <div class="flex flex-wrap gap-4 items-center mb-4">
+    {% if resume.has_resume_file %}
+      <a href="{{ resume.resume_file.url }}" target="_blank" class="text-blue-600 underline flex items-center">
+        📄 <span class="ml-1">View PDF</span>
       </a>
+    {% else %}
+      <p class="text-red-500 mb-0">No PDF uploaded or file missing</p>
     {% endif %}
-    <a href="{% url 'generate_resume_pdf' resume.pk %}" target="_blank"  class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700">🖨️ Download PDF</a>
-    <a href="{% url 'extract_resume_skills' resume.pk %}" class="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700">
-      🧠 Extract Skills
+
+    <a href="{% url 'generate_resume_pdf' resume.pk %}" target="_blank"
+       class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 flex items-center">
+      🖨️ <span class="ml-2">Download PDF</span>
+    </a>
+    <a href="{% url 'extract_resume_skills' resume.pk %}"
+       class="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 flex items-center">
+      🧠 <span class="ml-2">Extract Skills</span>
     </a>
   </div>
 
@@ -29,7 +38,6 @@
       <p><strong>Phone:</strong> {{ resume.phone }}</p>
       <p><strong>Address:</strong> {{ resume.address }}</p>
     </div>
-
     <div>
       <h2 class="text-lg font-semibold text-gray-800">🧑‍💼 Headline</h2>
       <p>{{ resume.headline }}</p>
@@ -77,15 +85,23 @@
       <p class="text-sm text-yellow-800">This resume is pending moderation.</p>
     </div>
   {% endif %}
+
   {% if resume.moderation_status == 'approved' %}
-  <div class="mt-4">
-    <label class="text-sm text-gray-600">🔗 Public Resume Link</label>
-    <div class="flex items-center gap-2">
-      <input type="text" readonly value="{{ request.build_absolute_uri|cut:request.get_full_path }}r/{{ resume.public_uuid }}/" class="w-full px-3 py-2 rounded border text-sm text-gray-800 bg-gray-50">
-      <button onclick="navigator.clipboard.writeText(document.querySelector('input').value)" class="px-3 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm">Copy</button>
+    <div class="mt-4">
+      <label class="text-sm text-gray-600">🔗 Public Resume Link</label>
+      <div class="flex items-center gap-2">
+        {% with base_url=request.scheme|add:'://'|add:request.get_host %}
+          <input id="public-link-{{ resume.pk }}" type="text" readonly
+                 value="{{ base_url }}/r/{{ resume.public_uuid }}/"
+                 class="w-full px-3 py-2 rounded border text-sm text-gray-800 bg-gray-50">
+        {% endwith %}
+        <button onclick="navigator.clipboard.writeText(document.getElementById('public-link-{{ resume.pk }}').value)"
+                class="px-3 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm">
+          Copy
+        </button>
+      </div>
     </div>
-  </div>
-{% endif %}
+  {% endif %}
 
 </div>
 {% endblock %}
