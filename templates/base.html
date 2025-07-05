@@ -9,7 +9,6 @@
   <meta name="keywords" content="resume builder, AI resume, Shadow Resume, Django resume, job resume">
   <meta name="author" content="Shadow Resume Team">
 
-  <!-- Tailwind CSS -->
   <link rel="stylesheet" href="{% static 'css/dist/styles.css' %}">
 
   <!-- Open Graph / Facebook -->
@@ -25,27 +24,48 @@
   <meta name="twitter:description" content="{% block twitter_description %}Build job-ready resumes instantly with AI support.{% endblock %}">
   <meta name="twitter:image" content="{% static 'images/shadow_preview.png' %}">
 
-  <!-- Theme color for mobile -->
   <meta name="theme-color" content="#4f46e5">
-
-  <!-- Favicon -->
   <link rel="icon" href="{% static 'images/favicon.ico.png' %}" type="image/x-icon">
 </head>
 
+<body class="bg-gray-100 text-gray-800 font-sans antialiased relative">
 
-<body class="bg-gray-100 text-gray-800 font-sans antialiased">
   {% include 'includes/header.html' %}
-  
-  <div class="flex min-h-screen">
+
+  <div id="layout" class="relative flex min-h-screen">
+
+    <!-- Sidebar -->
     {% include 'includes/sidebar.html' %}
-    <main class="flex-1 p-6">
+
+    <!-- Overlay -->
+    <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden md:hidden transition-opacity duration-300"></div>
+
+    <!-- Main content -->
+    <main class="flex-1 p-6 z-10 relative">
       {% block content %}{% endblock %}
     </main>
   </div>
 
   {% include 'includes/footer.html' %}
 
-  <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    const btn = document.getElementById('mobile-menu-button');
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+
+    if (btn && sidebar && overlay) {
+      btn.addEventListener('click', () => {
+        sidebar.classList.toggle('-translate-x-full');
+        overlay.classList.toggle('hidden');
+      });
+
+      overlay.addEventListener('click', () => {
+        sidebar.classList.add('-translate-x-full');
+        overlay.classList.add('hidden');
+      });
+    }
+  </script>
+
 </body>
 </html>
