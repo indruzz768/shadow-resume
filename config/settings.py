@@ -125,10 +125,17 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
-
-DEBUG = config('DEBUG', default=True, cast=bool)
-
-if DEBUG:
+RENDER = os.environ.get("RENDER", False)
+if RENDER:
+    # Render DB
+    DATABASES = {
+        'default': dj_database_url.config(
+            default=config('DATABASE_URL'),
+            conn_max_age=600
+        )
+    }
+else:
+    # Local PostgreSQL
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
@@ -138,10 +145,6 @@ if DEBUG:
             'HOST': config('LOCAL_DB_HOST', default='localhost'),
             'PORT': config('LOCAL_DB_PORT', default='5432'),
         }
-    }
-else:
-    DATABASES = {
-        'default': dj_database_url.config(default=config('DATABASE_URL'), conn_max_age=600)
     }
 
 # Custom User model
