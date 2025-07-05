@@ -246,3 +246,22 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Optional: Setup real email later
 DEFAULT_FROM_EMAIL = 'indransatheesan321@gmail.com'
+
+# settings.py
+
+import sys
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'stream': sys.stdout,
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'DEBUG',
+    },
+}
