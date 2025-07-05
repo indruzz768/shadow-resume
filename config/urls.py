@@ -3,7 +3,7 @@ from django.urls import path, include
 from django.contrib.auth import views as auth_views
 from accounts import views
 from django.views.generic import RedirectView
-
+from resumes.views import public_resume_view # Import the public resume view
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -28,6 +28,8 @@ urlpatterns = [
 
     # Default root redirect
     path('', RedirectView.as_view(url='/resumes/', permanent=False)),
+    # Public resume view
+    path('r/<uuid:uuid>/', public_resume_view, name='public_resume'),
 ]
 
 # Media file support in development

@@ -18,7 +18,9 @@ urlpatterns = [
     path('tailwind-test/', views.tailwind_test_view, name='tailwind_test'),
     path('view/<int:pk>/', views.resume_detail, name='resume_detail'),
     path('staff/moderate/<int:pk>/', views.moderate_resume, name='moderate_resume'),
-    path('r/<uuid:uuid>/', views.public_resume_view, name='public_resume'),
+
+
+
 
 
 ]
