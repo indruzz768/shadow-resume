@@ -2,38 +2,36 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
+  <title>{% block title %}Shadow Resume | Create Smart Resumes{% endblock %}</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <title>{% block title %}Shadow Resume{% endblock %}</title>
-
-  <!-- Favicon & Web Logo -->
-  <link rel="icon" href="{% static 'images/favicon.ico.png' %}" type="image/x-icon">
-  <meta name="theme-color" content="#1f1f2e">
+  <meta name="description" content="{% block description %}Generate AI-powered, job-ready resumes instantly.{% endblock %}">
+  <meta name="keywords" content="resume builder, AI resume, Shadow Resume, Django resume, job resume">
+  <meta name="author" content="Shadow Resume Team">
 
   <!-- Tailwind CSS -->
   <link rel="stylesheet" href="{% static 'css/dist/styles.css' %}">
 
-  <!-- SEO Meta -->
-  <meta name="description" content="Shadow Resume - Build AI-enhanced professional resumes easily.">
-  <meta name="keywords" content="resume builder, AI resume, professional CV, Shadow Resume">
-  <meta name="author" content="Shadow Resume Team">
-
-  <!-- Open Graph -->
-  <meta property="og:title" content="Shadow Resume">
-  <meta property="og:description" content="Build your professional resume with AI-powered tools.">
-  <meta property="og:url" content="https://shadow-resume.onrender.com">
-  <meta property="og:image" content="{% static 'images/shadow.png' %}">
+  <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
+  <meta property="og:url" content="https://shadow-resume.onrender.com/">
+  <meta property="og:title" content="{% block og_title %}Shadow Resume | AI Resume Builder{% endblock %}">
+  <meta property="og:description" content="{% block og_description %}Build, preview, and share resumes using AI skills matching.{% endblock %}">
+  <meta property="og:image" content="{% static 'images/shadow_preview.png' %}">
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Shadow Resume">
-  <meta name="twitter:description" content="Build your professional resume with AI-powered tools.">
-  <meta name="twitter:image" content="{% static 'images/shadow.png' %}">
+  <meta name="twitter:title" content="{% block twitter_title %}Shadow Resume{% endblock %}">
+  <meta name="twitter:description" content="{% block twitter_description %}Build job-ready resumes instantly with AI support.{% endblock %}">
+  <meta name="twitter:image" content="{% static 'images/shadow_preview.png' %}">
 
-  {% block extra_head %}{% endblock %}
+  <!-- Theme color for mobile -->
+  <meta name="theme-color" content="#4f46e5">
+
+  <!-- Favicon -->
+  <link rel="icon" href="{% static 'images/favicon.ico.png' %}" type="image/x-icon">
 </head>
+
 
 <body class="bg-gray-100 text-gray-800 font-sans antialiased">
   {% include 'includes/header.html' %}
