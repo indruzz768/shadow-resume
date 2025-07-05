@@ -48,3 +48,15 @@ class ResumeForm(forms.ModelForm):
             if file.size > 5 * 1024 * 1024:  # 5 MB limit
                 raise forms.ValidationError("File too large. Size should not exceed 5 MB.")
         return file
+    
+    def clean_status(self):
+        status = self.cleaned_data.get('status')
+        if status:
+            return status.strip().lower()
+        return status
+    
+    def clean_moderation_status(self):
+        moderation_status = self.cleaned_data.get('moderation_status')
+        if moderation_status:
+            return moderation_status.strip().lower()
+        return moderation_status            
