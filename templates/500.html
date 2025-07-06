@@ -1,0 +1,19 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Server Error - Shadow Resume</title>
+  <link href="{% static 'css/styles.css' %}" rel="stylesheet">
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+  <div class="text-center px-6 py-12 bg-white rounded-2xl shadow-md max-w-md border border-gray-200">
+    <img src="{% static 'images/500.svg' %}" alt="500 Error" class="mx-auto w-40 mb-6">
+    <h1 class="text-4xl font-extrabold text-red-500 mb-2">500</h1>
+    <p class="text-lg font-medium text-gray-700 mb-4">Something went wrong on our end.</p>
+    <a href="/" class="inline-block px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow hover:bg-blue-700 transition">
+      🔄 Try Again
+    </a>
+  </div>
+</body>
+</html>
