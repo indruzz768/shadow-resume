@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'cloudinary',  # For media file handling
     'cloudinary_storage',  # For media file storage
+    'django.contrib.sitemaps',
     # Third-party apps
     'rest_framework',
     'corsheaders',
@@ -222,16 +223,14 @@ GITHUB_CLIENT_SECRET = config('GITHUB_CLIENT_SECRET')
 GITHUB_REDIRECT_URI = 'https://shadow-resume.onrender.com/integrations/github/callback/'
 
 
-LINKEDIN_CLIENT_ID = os.environ.get('LINKEDIN_CLIENT_ID')
-LINKEDIN_CLIENT_SECRET = os.environ.get('LINKEDIN_CLIENT_SECRET')
-LINKEDIN_REDIRECT_URI = 'http://localhost:8000/integrations/linkedin/callback/'
+
 
 OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
 
 print(apps.app_configs)
 
 # Redirect after login/logout
-LOGIN_REDIRECT_URL = 'resume_list'
+LOGIN_REDIRECT_URL = 'dashboard'
 LOGOUT_REDIRECT_URL = 'login'
 LOGIN_URL = 'login'
 
@@ -242,12 +241,16 @@ MESSAGE_TAGS = {
 }
 
 # Development email backend
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = config("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
+DEFAULT_FROM_EMAIL = f'Shadow Resume <{EMAIL_HOST_USER}>'
 
-# Optional: Setup real email later
-DEFAULT_FROM_EMAIL = 'indransatheesan321@gmail.com'
 
-# settings.py
+
 
 import sys
 

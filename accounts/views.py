@@ -5,6 +5,9 @@ from django.contrib import messages
 from .forms import ProfileUpdateForm
 from django.contrib.auth.decorators import login_required
 import logging
+from django.contrib.auth.decorators import user_passes_test
+
+
 logger = logging.getLogger(__name__)
 def register_view(request):
     if request.method == 'POST':
@@ -96,7 +99,11 @@ from resumes.models import Resume
 from django.db.models import Q
 from .forms import ResumeSearchForm, UserSearchForm
 
-@user_passes_test(lambda u: u.is_superuser)
+
+def is_admin_or_superuser(user):
+    return user.is_superuser or user.groups.filter(name='Admin').exists()
+
+@user_passes_test(is_admin_or_superuser)
 def admin_dashboard(request):
     total_users = User.objects.count()
     total_staff = User.objects.filter(is_staff=True).count()
@@ -131,3 +138,11 @@ def toggle_staff(request, user_id):
     user.is_staff = not user.is_staff
     user.save()
     return HttpResponseRedirect(reverse('admin_dashboard'))
+
+
+
+def custom_404(request, exception):
+    return render(request, '404.html', status=404)
+
+def custom_500(request):
+    return render(request, '500.html', status=500)

@@ -6,6 +6,18 @@ from django.views.generic import RedirectView
 from resumes.views import public_resume_view # Import the public resume view
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.generic import TemplateView
+from django.contrib.sitemaps.views import sitemap
+from resumes.sitemaps import ResumeSitemap
+
+handler404 = 'accounts.views.custom_404'
+handler500 = 'accounts.views.custom_500'
+
+# Sitemap configuration
+sitemaps = {
+    'resumes': ResumeSitemap,
+}
+
 
 urlpatterns = [
     # Password reset views
@@ -30,6 +42,11 @@ urlpatterns = [
     path('', RedirectView.as_view(url='/resumes/', permanent=False)),
     # Public resume view
     path('r/<uuid:uuid>/', public_resume_view, name='public_resume'),
+    
+    path('robots.txt', TemplateView.as_view(template_name="robots.txt", content_type="text/plain")),
+    
+    path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
+
 ]
 
 # Media file support in development
