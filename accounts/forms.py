@@ -18,7 +18,7 @@ class CustomUserCreationForm(UserCreationForm):
 class ProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['profile_photo']  # Add more fields if needed
+        fields = ['profile_photo', 'username', 'email', 'first_name', 'last_name']  # Add more fields if needed
         widgets = {
             'profile_photo': forms.ClearableFileInput(attrs={'class': 'form-control'}),
         }

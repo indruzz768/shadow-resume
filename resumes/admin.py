@@ -3,9 +3,9 @@ from .models import Resume
 
 @admin.register(Resume)
 class ResumeAdmin(admin.ModelAdmin):
-    list_display = ('full_name', 'user', 'moderation_status', 'status', 'created_at','public_uuid')
+    list_display = ('full_name', 'user', 'moderation_status', 'status', 'created_at','public_uuid','email', 'headline', 'status', 'moderation_status')
     list_filter = ('moderation_status', 'status', 'created_at', 'user')
-    search_fields = ('full_name', 'user__username', 'headline', 'skills', 'summary',)
+    search_fields = ('full_name', 'user__username', 'headline', 'skills', 'summary','email')
     ordering = ('-created_at',)
     readonly_fields = ('public_uuid', 'created_at')
 

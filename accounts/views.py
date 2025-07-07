@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth import authenticate, login, logout
 from .forms import CustomUserCreationForm, CustomLoginForm
 from django.contrib import messages
@@ -77,7 +77,8 @@ def profile_edit(request):
     form = ProfileUpdateForm(request.POST or None, request.FILES or None, instance=user)
     if form.is_valid():
         form.save()
-        return redirect('dashboard')  # or wherever your profile page is
+        messages.success(request, "Profile updated successfully.")
+        return redirect('profile')
     return render(request, 'accounts/profile_edit.html', {'form': form})
 
 # accounts/views.py
@@ -105,24 +106,37 @@ def is_admin_or_superuser(user):
 
 @user_passes_test(is_admin_or_superuser)
 def admin_dashboard(request):
-    total_users = User.objects.count()
-    total_staff = User.objects.filter(is_staff=True).count()
-    total_resumes = Resume.objects.count()
-    approved = Resume.objects.filter(moderation_status="approved").count()
-    pending = Resume.objects.filter(moderation_status="pending").count()
-    rejected = Resume.objects.filter(moderation_status="rejected").count()
+    user_query = request.GET.get('user_query', '')
+    resume_query = request.GET.get('resume_query', '')
+
+    # Filter users
+    users = User.objects.all()
+    if user_query:
+        users = users.filter(
+            Q(username__icontains=user_query) |
+            Q(email__icontains=user_query)
+        )
+
+    # Filter resumes
+    resumes = Resume.objects.all()
+    if resume_query:
+        resumes = resumes.filter(
+            Q(full_name__icontains=resume_query) |
+            Q(email__icontains=resume_query)
+        )
 
     context = {
-        'total_users': total_users,
-        'total_staff': total_staff,
-        'total_resumes': total_resumes,
-        'approved': approved,
-        'pending': pending,
-        'rejected': rejected,
-        # Include these if you're using them:
-        'resume_form': ResumeSearchForm(),
-        'user_form': UserSearchForm(),
-        'filtered_users': User.objects.all(),  # or filtered result
+        'total_users': User.objects.count(),
+        'total_staff': User.objects.filter(is_staff=True).count(),
+        'total_resumes': Resume.objects.count(),
+        'approved': Resume.objects.filter(moderation_status="approved").count(),
+        'pending': Resume.objects.filter(moderation_status="pending").count(),
+        'rejected': Resume.objects.filter(moderation_status="rejected").count(),
+
+        'filtered_users': users,
+        'filtered_resumes': resumes,
+        'user_query': user_query,
+        'resume_query': resume_query,
     }
     return render(request, 'dashboard/admin_dashboard.html', context)
 
@@ -130,11 +144,18 @@ from django.contrib.auth import get_user_model
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
+@login_required
 def toggle_staff(request, user_id):
     if not request.user.is_superuser:
-        return redirect('dashboard')
+        return redirect('dashboard')  # Optional: return 403 if stricter
 
-    user = get_user_model().objects.get(id=user_id)
+    # Use get_object_or_404 for better error handling
+    user = get_object_or_404(get_user_model(), id=user_id)
+
+    # Prevent user from demoting themselves accidentally
+    if user == request.user:
+        return redirect('admin_dashboard')
+
     user.is_staff = not user.is_staff
     user.save()
     return HttpResponseRedirect(reverse('admin_dashboard'))
