@@ -12,15 +12,16 @@
       </svg>
     </button>
 
-<!-- ✅ Always Visible: Logo & Brand -->
-<a href="{% url 'dashboard' %}" class="flex items-center gap-3 px-4 py-2">
-  <img src="{% static 'images/shadow.png' %}" alt="Shadow Resume Logo"
-       class="h-10 w-10 rounded-full object-cover ring-2 ring-indigo-500 transition-all duration-200 shadow"
-       onerror="this.style.display='none'">
-  <h1 class="text-xl font-bold text-gray-800 hover:text-indigo-700 transition-all duration-200">
-    Shadow Resume
-  </h1>
-</a>
+    <!-- ✅ Always Visible: Logo & Brand -->
+    <a href="{% url 'dashboard' %}" class="flex items-center gap-3 group">
+      <img src="{% static 'images/shadow.png' %}" alt="Shadow Resume Logo"
+           class="h-10 w-10 rounded-full object-cover ring-2 ring-indigo-500 group-hover:ring-indigo-600 transition-all duration-200 shadow"
+           onerror="this.style.display='none'">
+      <h1 class="text-xl sm:text-2xl font-bold text-gray-800 group-hover:text-indigo-700 transition">
+        Shadow Resume
+      </h1>
+    </a>
+  </div>
 
   <!-- 🔸 Right: Profile Dropdown or Login -->
   <div x-data="{ open: false }" class="relative">
