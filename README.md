@@ -2,7 +2,7 @@
 
 An AI-powered resume builder that lets users create, enhance, and manage professional resumes with smart skill extraction, PDF export, and public sharing. Built with Django, Tailwind CSS, and modern full-stack tools.
 
-🔗 **Live Demo**: [https://shadow-resume.onrender.com](https://shadow-resume.onrender.com)  
+🔗 **Live Demo**: [shadow-resume-1xxy.onrender.com](https://shadow-resume.onrender.com)  
 📂 **GitHub Repo**: [github.com/indruzz768/shadow-resume](https://github.com/indruzz768/shadow-resume)
 
 ---
