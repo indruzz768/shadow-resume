@@ -1,9 +1,8 @@
 {% load static %}
-<header class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-6 py-4 shadow-md flex justify-between items-center transition-all duration-300">
+<header class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-6 py-5 shadow-md flex justify-between items-center">
   <!-- 🔹 Left: Brand & Mobile Toggle -->
   <div class="flex items-center gap-4">
-    
-    <!-- ✅ Mobile Only: Menu Toggle -->
+    <!-- Mobile Toggle -->
     <button id="mobile-menu-button"
             class="text-white p-2 focus:outline-none md:hidden hover:bg-indigo-700 rounded-md"
             aria-label="Toggle Sidebar">
@@ -12,18 +11,23 @@
       </svg>
     </button>
 
-    <!-- ✅ Always Visible: Logo & Brand -->
-    <a href="{% url 'dashboard' %}" class="flex items-center gap-3 group">
-      <img src="{% static 'images/shadow.png' %}" alt="Shadow Resume Logo"
-           class="h-10 w-10 rounded-full object-cover ring-2 ring-white group-hover:ring-yellow-300 transition-all duration-300 shadow"
-           onerror="this.style.display='none'">
-      <h1 class="text-xl sm:text-2xl font-bold group-hover:text-yellow-300 transition-all duration-300">
-        Shadow Resume
-      </h1>
+    <!-- Branding -->
+    <a href="{% url 'dashboard' %}" class="flex flex-col sm:flex-row items-start sm:items-center gap-0 sm:gap-3 group">
+      <div class="flex items-center gap-3">
+        <img src="{% static 'images/shadow.png' %}" alt="Shadow Resume Logo"
+             class="h-10 w-10 rounded-full object-cover ring-2 ring-white group-hover:ring-yellow-300 transition-all duration-300 shadow"
+             onerror="this.style.display='none'">
+        <div>
+          <h1 class="text-xl sm:text-2xl font-bold group-hover:text-yellow-300 transition">
+            Shadow Resume
+          </h1>
+          <p class="text-xs text-white text-opacity-80 leading-tight">Craft. Refine. Impress.</p>
+        </div>
+      </div>
     </a>
   </div>
 
-  <!-- 🔸 Right: Profile Dropdown or Login -->
+  <!-- 🔸 Right: Profile/Login -->
   <div x-data="{ open: false }" class="relative">
     {% if request.user.is_authenticated %}
     <button @click="open = !open" class="flex items-center gap-2 focus:outline-none hover:bg-white hover:bg-opacity-10 px-2 py-1 rounded transition">

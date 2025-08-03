@@ -8,18 +8,11 @@
   <h1 class="text-3xl font-bold text-indigo-800 mb-10">🔧 Admin Dashboard</h1>
 
   <!-- 🧮 Metrics -->
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
-    {% for metric, label, color in [
-      (total_users, "Total Users", "text-blue-600"),
-      (total_staff, "Staff Count", "text-indigo-600"),
-      (total_resumes, "Total Resumes", "text-green-600"),
-      (approved, "Approved Resumes", "text-emerald-500"),
-      (pending, "Pending Resumes", "text-yellow-500"),
-      (rejected, "Rejected Resumes", "text-red-500"),
-    ] %}
-    <div class="bg-white shadow-lg rounded-2xl p-6 border border-indigo-100">
-      <h2 class="text-lg font-medium text-gray-500">{{ label }}</h2>
-      <p class="text-3xl font-bold {{ color }}">{{ metric }}</p>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10 text-center">
+    {% for metric in metrics %}
+    <div class="bg-white shadow-lg rounded-2xl p-6 border border-indigo-100 flex flex-col items-center justify-center">
+      <h2 class="text-lg font-medium text-gray-500 mb-2">{{ metric.label }}</h2>
+      <p class="text-3xl font-bold {{ metric.color }}">{{ metric.value }}</p>
     </div>
     {% endfor %}
   </div>

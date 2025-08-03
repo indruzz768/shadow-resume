@@ -102,17 +102,33 @@ def admin_dashboard(request):
     if resume_query:
         resumes = resumes.filter(Q(full_name__icontains=resume_query) | Q(email__icontains=resume_query))
 
+    total_users = User.objects.count()
+    total_staff = User.objects.filter(is_staff=True).count()
+    total_resumes = Resume.objects.count()
+    approved = Resume.objects.filter(moderation_status="approved").count()
+    pending = Resume.objects.filter(moderation_status="pending").count()
+    rejected = Resume.objects.filter(moderation_status="rejected").count()
+
+    metrics = [
+        {'value': total_users, 'label': "Total Users", 'color': "text-blue-600"},
+        {'value': total_staff, 'label': "Staff Count", 'color': "text-indigo-600"},
+        {'value': total_resumes, 'label': "Total Resumes", 'color': "text-green-600"},
+        {'value': approved, 'label': "Approved Resumes", 'color': "text-emerald-500"},
+        {'value': pending, 'label': "Pending Resumes", 'color': "text-yellow-500"},
+        {'value': rejected, 'label': "Rejected Resumes", 'color': "text-red-500"},
+    ]
     context = {
-        'total_users': User.objects.count(),
-        'total_staff': User.objects.filter(is_staff=True).count(),
-        'total_resumes': Resume.objects.count(),
-        'approved': Resume.objects.filter(moderation_status="approved").count(),
-        'pending': Resume.objects.filter(moderation_status="pending").count(),
-        'rejected': Resume.objects.filter(moderation_status="rejected").count(),
+        'total_users': total_users,
+        'total_staff': total_staff,
+        'total_resumes': total_resumes,
+        'approved': approved,
+        'pending': pending,
+        'rejected': rejected,
         'filtered_users': users,
         'filtered_resumes': resumes,
         'user_query': user_query,
         'resume_query': resume_query,
+        'metrics': metrics,
     }
     return render(request, 'dashboard/admin_dashboard.html', context)
 
