@@ -3,17 +3,17 @@
 <html lang="en" class="scroll-smooth">
   <head>
     <meta charset="UTF-8">
-    <title>
-      {% block title %}Shadow Resume | Create Smart Resumes{% endblock %}
-    </title>
+    <title>{% block title %}Shadow Resume | Create Smart Resumes{% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="{% block description %}Generate AI-powered, job-ready resumes instantly.{% endblock %}">
     <meta name="keywords" content="resume builder, AI resume, Shadow Resume, Django resume, job resume">
     <meta name="author" content="Shadow Resume Team">
 
+    <!-- Tailwind + Custom Styles -->
     <link rel="stylesheet" href="{% static 'css/dist/styles.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+    <!-- SEO & Social -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://shadow-resume.onrender.com/">
     <meta property="og:title" content="{% block og_title %}Shadow Resume | AI Resume Builder{% endblock %}">
@@ -25,30 +25,42 @@
     <meta name="twitter:description" content="{% block twitter_description %}Build job-ready resumes instantly with AI support.{% endblock %}">
     <meta name="twitter:image" content="{% static 'images/shadow_preview.png' %}">
 
-    <meta name="theme-color" content="#4f46e5">
+    <!-- Brand Color -->
+    <meta name="theme-color" content="#6a11cb">
     <link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
 
+    <!-- Alpine JS -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <style>
+      body {
+        background: linear-gradient(to right, #232526, #414345); /* fallback dark gradient */
+      }
+    </style>
   </head>
 
-  <body class="bg-gray-100 text-gray-800 font-sans antialiased relative">
+  <body class="bg-gradient-to-tr from-[#0f0c29] via-[#302b63] to-[#24243e] text-white font-sans antialiased relative transition-colors duration-500 ease-in-out">
+
     {% include 'includes/header.html' %}
 
     <div id="layout" class="relative flex min-h-screen">
-      <!-- Overlay (under sidebar) -->
+      <!-- Overlay -->
       <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 hidden transition-opacity duration-300 z-30 md:hidden"></div>
 
       <!-- Sidebar -->
       {% include 'includes/sidebar.html' %}
 
-      <!-- Main content -->
+      <!-- Main Content -->
       <main class="flex-1 p-6 z-10 relative">
-        {% block content %}{% endblock %}
+        <div class="animate-fade-in transition-all duration-500 ease-out">
+          {% block content %}{% endblock %}
+        </div>
       </main>
     </div>
 
     {% include 'includes/footer.html' %}
 
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
       const btn = document.getElementById('mobile-menu-button');
@@ -94,5 +106,23 @@
         dropdown?.classList.toggle('hidden');
       });
     </script>
+
+    <!-- Tailwind Custom Animations -->
+    <style>
+      @keyframes fade-in {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      .animate-fade-in {
+        animation: fade-in 0.6s ease-out;
+      }
+
+      .hover-glow:hover {
+        box-shadow: 0 0 10px #9f7aea;
+        transition: box-shadow 0.3s ease-in-out;
+      }
+    </style>
+
   </body>
 </html>
