@@ -41,6 +41,15 @@ module.exports = {
          */
         // '../../**/*.py'
     ],
+    safelist: [
+        // Add any classes you want to always include, regardless of whether they are used in your templates
+        'card',
+        'card-accent-accent-indigo',
+        'card-accent-accent-green',
+        'card-accent-accent-blue',
+        'card-accent-accent-purple',
+        'card-accent-accent-red'
+    ],
     theme: {
         extend: {},
     },
