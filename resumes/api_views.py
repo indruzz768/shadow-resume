@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import Resume
 from .serializers import ResumeSerializer
-from .utils import extract_skills
+from ai_service.utils import extract_skills
 
 class ResumeListCreateAPIView(generics.ListCreateAPIView):
     queryset = Resume.objects.all()

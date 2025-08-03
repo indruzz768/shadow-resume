@@ -17,7 +17,6 @@ urlpatterns = [
     # File Operations
     path('<int:pk>/delete_file/', views.delete_resume_file, name='delete_resume_file'),
     path('<int:pk>/extract_skills/', views.extract_resume_skills, name='extract_resume_skills'),
-    path('download/', views.download_resume, name='download_resume'),
     path('<int:resume_id>/download/', views.generate_resume_pdf, name='generate_resume_pdf'),
 
     # API Endpoints
