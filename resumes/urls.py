@@ -25,7 +25,7 @@ urlpatterns = [
     path('api/extract_skills/', ExtractSkillsAPIView.as_view(), name='api_extract_skills'),
 
     # Moderation
-    path('staff/moderation/', views.staff_moderation_view, name='staff_moderation'),
+    path('staff/moderation/', views.staff_moderation_view, name='staff_moderation_view'),
     path('staff/moderate/<int:pk>/', views.moderate_resume, name='moderate_resume'),
 
     # Misc

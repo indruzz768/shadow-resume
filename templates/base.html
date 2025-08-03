@@ -1,13 +1,11 @@
-
 {% load static %}
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
   <head>
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <meta charset="UTF-8">
     <title>
       {% block title %}Shadow Resume | Create Smart Resumes{% endblock %}
     </title>
-    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="{% block description %}Generate AI-powered, job-ready resumes instantly.{% endblock %}">
     <meta name="keywords" content="resume builder, AI resume, Shadow Resume, Django resume, job resume">
@@ -28,7 +26,9 @@
     <meta name="twitter:image" content="{% static 'images/shadow_preview.png' %}">
 
     <meta name="theme-color" content="#4f46e5">
-    <link rel="icon" href="{% static 'images/favicon.ico.png' %}" type="image/x-icon">
+    <link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
   </head>
 
   <body class="bg-gray-100 text-gray-800 font-sans antialiased relative">
@@ -38,7 +38,7 @@
       <!-- Overlay (under sidebar) -->
       <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 hidden transition-opacity duration-300 z-30 md:hidden"></div>
 
-      <!-- Sidebar (on top of overlay) -->
+      <!-- Sidebar -->
       {% include 'includes/sidebar.html' %}
 
       <!-- Main content -->
@@ -73,15 +73,13 @@
 
         sidebarLinks?.forEach(link => {
           link.addEventListener('click', () => {
-            // Only close on mobile
             if (window.innerWidth < 768) {
               closeSidebar();
             }
           });
         });
       }
-    </script>
-    <script>
+
       const dropdownBtn = document.getElementById('profileDropdownBtn');
       const dropdown = document.getElementById('profileDropdown');
 
