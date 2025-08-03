@@ -104,7 +104,7 @@ def extract_resume_skills(request, pk):
 @user_passes_test(is_staff_user)
 def staff_moderation_view(request):
     resumes = Resume.objects.filter(moderation_status='pending')
-    return render(request, 'resumes/staff_moderation.html', {'resumes': resumes})
+    return render(request, 'resumes/staff_resume_moderation.html', {'resumes': resumes})
 
 # ✅ Staff Resume Moderation (Approve/Reject)
 @require_POST
