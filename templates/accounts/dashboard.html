@@ -4,11 +4,11 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
-<div class="max-w-6xl mx-auto">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
   <h1 class="text-2xl font-bold text-white mb-6">👋 Welcome, {{ request.user.first_name|default:request.user.username }}</h1>
 
   <!-- 👤 Profile Card -->
-  <div class="card card-accent-indigo flex items-center gap-6 mb-6">
+  <div class="card card-accent-accent-indigo flex items-center gap-6 mb-6">
     {% if request.user.profile_photo %}
       <img src="{{ request.user.profile_photo.url }}" alt="Profile Photo"
            class="h-20 w-20 rounded-full object-cover ring-2 ring-indigo-300">
@@ -32,7 +32,7 @@
   </div>
 
   <!-- 🐙 GitHub Section -->
-  <div class="card card-accent-purple mb-6">
+  <div class="card card-accent-accent-purple mb-6">
     <div class="flex justify-between items-center mb-4">
       <h2 class="text-xl font-bold text-white">🐙 GitHub Portfolio</h2>
       {% if not github_projects and not github_skills %}
@@ -67,10 +67,11 @@
     {% if resumes %}
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {% for resume in resumes %}
-          <div class="card card-accent-green p-5 flex flex-col justify-between hover:shadow-lg transition">
+          <div class="card card-accent-accent-green p-5 flex flex-col justify-between hover:shadow-lg transition">
             <div>
               <h3 class="text-lg font-semibold text-white">{{ resume.full_name }}</h3>
               <p class="text-sm text-gray-300 mb-2">{{ resume.headline|default:"No headline" }}</p>
+
               {% if resume.status %}
                 <span class="inline-block text-xs font-medium px-2 py-1 rounded-full mb-2
                   {% if resume.status|lower == 'draft' %} bg-yellow-100 text-yellow-800
@@ -81,12 +82,14 @@
                   {{ resume.status|capfirst }}
                 </span>
               {% endif %}
+
               {% if resume.skills %}
                 <p class="text-sm text-gray-200 mt-2">
                   <strong>Skills:</strong> {{ resume.skills }}
                 </p>
               {% endif %}
             </div>
+
             <div class="mt-4 flex justify-between items-center text-sm text-indigo-300">
               <a href="{% url 'resume_update' resume.pk %}" class="hover:underline">Edit</a>
               <a href="{% url 'resume_detail' resume.pk %}" class="hover:underline">View</a>
@@ -104,7 +107,7 @@
 
   <!-- 🛡️ Staff Panel -->
   {% if request.user.is_staff and not request.user.is_superuser %}
-    <div class="card card-accent-red mb-6">
+    <div class="card card-accent-accent-red mb-6">
       <h2 class="text-lg font-semibold text-white mb-2">🛡️ Staff Moderation Access</h2>
       <a href="{% url 'staff_moderation_view' %}" class="text-sm text-yellow-300 hover:underline">Go to Moderation Panel →</a>
     </div>
@@ -112,7 +115,7 @@
 
   <!-- ⚙️ Admin Tools -->
   {% if request.user.role == 'admin' and not request.user.is_superuser %}
-    <div class="card card-accent-blue">
+    <div class="card card-accent-accent-blue">
       <h2 class="text-lg font-semibold text-white mb-2">⚙️ Admin Tools</h2>
       <a href="{% url 'admin_dashboard' %}" class="text-sm text-yellow-300 hover:underline">Open Admin Dashboard →</a>
     </div>
