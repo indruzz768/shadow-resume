@@ -1,69 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>{{ resume.full_name }} - Public Resume</title>
-  <meta property="og:image" content="{{ resume.profile_photo.url|default:'https://shadow-resume.onrender.com/static/default-og.jpg' }}">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <meta property="og:image" content="{{ resume.profile_photo.url|default:'https://shadow-resume.onrender.com/static/default-og.jpg' }}" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <style>
+    /* Preserve line breaks in pre-line but limit max height if needed */
+    .section-content {
+      white-space: pre-line;
+    }
+  </style>
 </head>
-<body class="bg-gray-100 text-gray-800">
+<body class="bg-gray-50 text-gray-900 font-sans leading-relaxed">
 
-  <div class="max-w-3xl mx-auto bg-white p-8 my-10 shadow-lg rounded-lg">
+  <div class="max-w-3xl mx-auto bg-white p-10 my-12 rounded-lg shadow-lg">
+
     <!-- Header -->
-    <div class="mb-6">
-      <h1 class="text-3xl font-bold text-gray-900">{{ resume.full_name }}</h1>
-      <p class="text-gray-600">{{ resume.headline }}</p>
-      <div class="mt-2 text-sm text-gray-700">
-        📞 {{ resume.phone }} &nbsp; | &nbsp; ✉️ {{ resume.email }} <br>
-        📍 {{ resume.address }}
+    <header class="mb-8 border-b border-gray-300 pb-6 flex flex-col sm:flex-row sm:justify-between sm:items-center">
+      <div>
+        <h1 class="text-4xl font-extrabold tracking-tight">{{ resume.full_name }}</h1>
+        <p class="text-xl text-gray-700 mt-1">{{ resume.headline }}</p>
       </div>
-    </div>
+      <div class="mt-4 sm:mt-0 text-gray-600 text-sm sm:text-right space-y-1">
+        <p>📞 {{ resume.phone }}</p>
+        <p>✉️ {{ resume.email }}</p>
+        <p>📍 {{ resume.address }}</p>
+      </div>
+    </header>
 
     <!-- Summary -->
-    <div class="mb-6">
-      <h2 class="text-lg font-semibold text-gray-800 mb-1">📝 Summary</h2>
-      <p class="text-gray-700 whitespace-pre-line">{{ resume.summary }}</p>
-    </div>
+    <section class="mb-8">
+      <h2 class="text-2xl font-semibold border-b border-indigo-500 inline-block pb-1 mb-4">📝 Summary</h2>
+      <p class="section-content text-gray-700">{{ resume.summary }}</p>
+    </section>
 
     <!-- Skills -->
     {% if resume.skills %}
-    <div class="mb-6">
-      <h2 class="text-lg font-semibold text-gray-800 mb-1">🛠 Skills</h2>
-      <div class="flex flex-wrap gap-2">
+    <section class="mb-8">
+      <h2 class="text-2xl font-semibold border-b border-indigo-500 inline-block pb-1 mb-4">🛠 Skills</h2>
+      <div class="flex flex-wrap gap-3">
         {% for skill in skills_list %}
-          <span class="bg-gray-200 text-gray-900 text-sm px-3 py-1 rounded-full shadow-sm">{{ skill }}</span>
+          <span class="bg-indigo-100 text-indigo-900 px-4 py-1 rounded-full font-medium shadow-sm">{{ skill }}</span>
         {% endfor %}
       </div>
-    </div>
+    </section>
     {% endif %}
 
     <!-- Education -->
-    <div class="mb-6">
-      <h2 class="text-lg font-semibold text-gray-800 mb-1">🎓 Education</h2>
-      <p class="text-gray-700 whitespace-pre-line">{{ resume.education }}</p>
-    </div>
+    <section class="mb-8">
+      <h2 class="text-2xl font-semibold border-b border-indigo-500 inline-block pb-1 mb-4">🎓 Education</h2>
+      <p class="section-content text-gray-700">{{ resume.education }}</p>
+    </section>
 
     <!-- Experience -->
-    <div class="mb-6">
-      <h2 class="text-lg font-semibold text-gray-800 mb-1">💼 Experience</h2>
-      <p class="text-gray-700 whitespace-pre-line">{{ resume.experience }}</p>
-    </div>
+    <section class="mb-8">
+      <h2 class="text-2xl font-semibold border-b border-indigo-500 inline-block pb-1 mb-4">💼 Experience</h2>
+      <p class="section-content text-gray-700">{{ resume.experience }}</p>
+    </section>
 
     <!-- Projects -->
-    <div class="mb-6">
-      <h2 class="text-lg font-semibold text-gray-800 mb-1">🚀 Projects</h2>
-      <p class="text-gray-700 whitespace-pre-line">{{ resume.projects }}</p>
-    </div>
+    <section class="mb-8">
+      <h2 class="text-2xl font-semibold border-b border-indigo-500 inline-block pb-1 mb-4">🚀 Projects</h2>
+      <p class="section-content text-gray-700">{{ resume.projects }}</p>
+    </section>
 
     <!-- Certifications -->
-    <div>
-      <h2 class="text-lg font-semibold text-gray-800 mb-1">🏅 Certifications</h2>
-      <p class="text-gray-700 whitespace-pre-line">{{ resume.certifications }}</p>
-    </div>
+    <section>
+      <h2 class="text-2xl font-semibold border-b border-indigo-500 inline-block pb-1 mb-4">🏅 Certifications</h2>
+      <p class="section-content text-gray-700">{{ resume.certifications }}</p>
+    </section>
+
   </div>
 
-  <footer class="text-center text-sm text-gray-500 py-4">
+  <footer class="text-center text-sm text-gray-500 py-6 border-t border-gray-300">
     Powered by ShadowResume · Public Resume View
   </footer>
 

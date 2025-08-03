@@ -4,27 +4,34 @@
 {% block content %}
 <div class="max-w-5xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
 
-  <!-- Header -->
+  <!-- 🔖 Header -->
   <div class="flex justify-between items-center mb-8">
     <h2 class="text-3xl font-bold text-gray-800">📄 My Resumes</h2>
-    <a href="{% url 'resume_create' %}" class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-md text-sm font-medium">
+    <a href="{% url 'resume_create' %}" class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-md text-sm font-medium transition">
       ➕ Create New Resume
     </a>
   </div>
 
-  <!-- Resume List -->
+  <!-- 📋 Resume List -->
   {% if resumes %}
     <ul class="space-y-6">
       {% for resume in resumes %}
-        <li class="bg-white p-6 rounded-lg shadow-md">
-          <div class="flex justify-between items-start">
+        <li class="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition p-6">
+          <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4">
+            
+            <!-- Resume Info -->
             <div>
               <h3 class="text-lg font-semibold text-indigo-700">{{ resume.full_name }}</h3>
-              <p class="text-sm text-gray-600 mt-1">Status: 
-                <span class="font-medium text-gray-800">{{ resume.get_status_display }}</span>
+              <p class="text-sm text-gray-600 mt-1">
+                📌 Status:
+                <span class="inline-block bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded font-medium uppercase tracking-wide">
+                  {{ resume.get_status_display }}
+                </span>
               </p>
             </div>
-            <div class="space-x-4 text-sm mt-1">
+
+            <!-- Action Links -->
+            <div class="flex flex-wrap gap-3 text-sm">
               <a href="{% url 'resume_detail' resume.pk %}" class="text-indigo-600 hover:underline">👀 View</a>
               <a href="{% url 'resume_update' resume.pk %}" class="text-blue-600 hover:underline">✏️ Edit</a>
               <a href="{% url 'resume_delete' resume.pk %}" class="text-red-600 hover:underline">🗑️ Delete</a>
@@ -37,8 +44,8 @@
       {% endfor %}
     </ul>
   {% else %}
-    <div class="text-gray-600 text-sm mt-4">
-      No resumes found. <a href="{% url 'resume_create' %}" class="text-indigo-600 underline">Start by creating one</a>.
+    <div class="text-gray-600 text-sm mt-6">
+      No resumes found. <a href="{% url 'resume_create' %}" class="text-indigo-600 hover:underline">Start by creating one</a>.
     </div>
   {% endif %}
 </div>

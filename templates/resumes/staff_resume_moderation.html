@@ -2,41 +2,45 @@
 {% block title %}Moderation Panel{% endblock %}
 
 {% block content %}
-<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-  <h1 class="text-3xl font-bold text-yellow-700 mb-6">🛡️ Resume Moderation Panel</h1>
+<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+  <h1 class="text-3xl font-bold text-yellow-700 mb-8">🛡️ Resume Moderation Panel</h1>
 
   {% if resumes %}
     <div class="grid grid-cols-1 gap-6">
       {% for resume in resumes %}
-        <div class="bg-white rounded-lg shadow-md p-6">
-          <div class="flex justify-between items-center">
-            <div>
-              <p class="text-lg font-semibold text-gray-800">{{ resume.full_name }}</p>
-              <p class="text-sm text-gray-600">Email: {{ resume.email }}</p>
-              <p class="text-sm text-gray-600">Submitted by: {{ resume.user.username }}</p>
-              <p class="text-sm text-gray-600">Status: 
-                <span class="inline-block bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-xs font-semibold uppercase">
+        <div class="bg-white border border-gray-100 shadow-md rounded-2xl p-6 transition hover:shadow-lg">
+          <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
+            <!-- Resume Info -->
+            <div class="flex-1">
+              <p class="text-xl font-semibold text-gray-800">{{ resume.full_name }}</p>
+              <p class="text-sm text-gray-600 mt-1">📧 Email: {{ resume.email }}</p>
+              <p class="text-sm text-gray-600 mt-1">👤 Submitted by: {{ resume.user.username }}</p>
+              <p class="text-sm text-gray-600 mt-1">
+                🗂️ Status:
+                <span class="inline-block bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-xs font-medium uppercase tracking-wide">
                   {{ resume.get_moderation_status_display }}
                 </span>
               </p>
               {% if resume.resume_file %}
-                <a href="{{ resume.resume_file.url }}" target="_blank" class="text-indigo-600 hover:underline mt-2 inline-block">
+                <a href="{{ resume.resume_file.url }}" target="_blank" class="mt-2 inline-block text-indigo-600 hover:text-indigo-800 text-sm font-medium">
                   📄 View Uploaded Resume
                 </a>
               {% endif %}
             </div>
-            <div class="flex gap-2">
+
+            <!-- Approve/Reject -->
+            <div class="flex gap-2 mt-4 md:mt-0">
               <form method="post" action="{% url 'moderate_resume' resume.id %}">
                 {% csrf_token %}
                 <input type="hidden" name="action" value="approve">
-                <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-4 py-1 rounded">
+                <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium">
                   ✅ Approve
                 </button>
               </form>
               <form method="post" action="{% url 'moderate_resume' resume.id %}">
                 {% csrf_token %}
                 <input type="hidden" name="action" value="reject">
-                <button type="submit" class="bg-red-600 hover:bg-red-700 text-white px-4 py-1 rounded">
+                <button type="submit" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm font-medium">
                   ❌ Reject
                 </button>
               </form>
@@ -46,7 +50,7 @@
       {% endfor %}
     </div>
   {% else %}
-    <p class="text-gray-600">No resumes pending moderation at the moment.</p>
+    <p class="text-gray-500 text-center text-sm">📭 No resumes pending moderation at the moment.</p>
   {% endif %}
 </div>
 {% endblock %}

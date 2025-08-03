@@ -1,3 +1,34 @@
-<footer class="bg-white text-center py-4 border-t mt-10 text-sm text-gray-500">
-    © 2025 Shadow Resume. All rights reserved.
+{% load static %}
+<footer class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-6 mt-10">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
+    
+    <!-- Branding -->
+    <div class="flex items-center gap-3">
+      <img src="{% static 'images/shadow.png' %}" alt="Shadow Resume Logo" class="h-10 w-10 rounded-full ring-2 ring-white">
+      <div>
+        <p class="text-lg font-semibold">Shadow Resume</p>
+        <p class="text-xs">© 2025 All rights reserved.</p>
+      </div>
+    </div>
+
+    <!-- Quick Links -->
+    <div class="flex gap-6 text-sm">
+      <a href="{% url 'dashboard' %}" class="hover:underline hover:text-yellow-300 transition">Dashboard</a>
+      <a href="{% url 'profile' %}" class="hover:underline hover:text-yellow-300 transition">Profile</a>
+      <a href="mailto:support@shadowresume.com" class="hover:underline hover:text-yellow-300 transition">Contact</a>
+    </div>
+
+    <!-- Social Media -->
+    <div class="flex gap-4 text-white text-xl">
+      <a href="https://github.com/indruzz768/shadow-resume" target="_blank" class="hover:text-yellow-300 transition">
+        <i class="fab fa-github"></i>
+      </a>
+      <a href="https://linkedin.com/in/your-link" target="_blank" class="hover:text-yellow-300 transition">
+        <i class="fab fa-linkedin"></i>
+      </a>
+      <a href="https://twitter.com/your-handle" target="_blank" class="hover:text-yellow-300 transition">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </div>
+  </div>
 </footer>

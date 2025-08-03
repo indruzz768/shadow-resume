@@ -4,16 +4,16 @@
 {% block title %}Profile{% endblock %}
 
 {% block content %}
-<div class="max-w-3xl mx-auto mt-10 bg-white shadow-lg rounded-xl p-8">
-  <h1 class="text-2xl font-bold text-gray-800 mb-6">👤 Profile Overview</h1>
+<div class="max-w-3xl mx-auto mt-16 bg-white shadow-xl rounded-2xl p-8 border border-indigo-100">
+  <h1 class="text-2xl font-bold text-indigo-800 mb-6">👤 Profile Overview</h1>
 
   <!-- Profile Photo + Name -->
   <div class="flex items-center space-x-6 mb-8">
     {% if user.profile_photo %}
       <img src="{{ user.profile_photo.url }}" alt="Profile Photo"
-           class="w-24 h-24 rounded-full object-cover border border-gray-300 shadow-sm">
+           class="w-24 h-24 rounded-full object-cover ring-2 ring-indigo-500 shadow">
     {% else %}
-      <div class="w-24 h-24 rounded-full bg-gray-100 flex items-center justify-center text-gray-400 text-sm">
+      <div class="w-24 h-24 rounded-full bg-gray-100 flex items-center justify-center text-gray-400 text-sm border border-gray-300">
         No Photo
       </div>
     {% endif %}
@@ -23,6 +23,7 @@
       <p class="text-sm text-gray-600">{{ user.email }}</p>
       <span class="inline-block mt-1 text-xs px-2 py-1 rounded bg-indigo-100 text-indigo-700">
         {% if user.is_superuser %}Superuser
+        {% elif user.role == 'admin' %}Admin
         {% elif user.is_staff %}Staff
         {% else %}User
         {% endif %}
@@ -52,7 +53,7 @@
 
   <!-- Action Buttons -->
   <div class="pt-8 flex justify-between items-center">
-    <a href="{% url 'dashboard' %}" class="text-sm text-gray-500 hover:underline">← Back to Dashboard</a>
+    <a href="{% url 'dashboard' %}" class="text-sm text-gray-500 hover:text-indigo-600 transition">← Back to Dashboard</a>
     <a href="{% url 'profile_edit' %}" class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-md text-sm font-medium transition">
       ✏️ Edit Profile
     </a>
@@ -61,7 +62,7 @@
   <!-- Password Reset -->
   <div class="mt-6 border-t pt-4 text-sm text-gray-600 text-center">
     Want to reset your password? 
-    <a href="{% url 'account_reset_password' %}" class="text-blue-600 hover:underline">Click here</a>
+    <a href="{% url 'account_reset_password' %}" class="text-indigo-600 hover:underline">Click here</a>
   </div>
 </div>
 {% endblock %}
