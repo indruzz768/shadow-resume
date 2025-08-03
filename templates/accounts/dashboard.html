@@ -5,23 +5,23 @@
 
 {% block content %}
 <div class="max-w-6xl mx-auto">
-  <h1 class="text-2xl font-bold text-indigo-800 mb-6">👋 Welcome, {{ request.user.first_name|default:request.user.username }}</h1>
+  <h1 class="text-2xl font-bold text-white mb-6">👋 Welcome, {{ request.user.first_name|default:request.user.username }}</h1>
 
   <!-- 👤 Profile Card -->
-  <div class="bg-white rounded-2xl shadow-lg border border-indigo-100 mb-6 p-6 flex items-center gap-6 transition-all duration-300 hover:shadow-xl">
+  <div class="card flex items-center gap-6 mb-6 transition-all duration-300 hover:shadow-xl">
     {% if request.user.profile_photo %}
       <img src="{{ request.user.profile_photo.url }}" alt="Profile Photo"
-           class="h-20 w-20 rounded-full object-cover ring-2 ring-indigo-500">
+           class="h-20 w-20 rounded-full object-cover ring-2 ring-indigo-300">
     {% else %}
-      <div class="h-20 w-20 rounded-full bg-gray-100 flex items-center justify-center text-gray-400 text-sm">
+      <div class="h-20 w-20 rounded-full bg-gray-600 bg-opacity-30 flex items-center justify-center text-white text-sm">
         No Photo
       </div>
     {% endif %}
 
     <div>
-      <h2 class="text-xl font-semibold text-gray-800">{{ request.user.get_full_name|default:request.user.username }}</h2>
-      <p class="text-sm text-gray-600">{{ request.user.email }}</p>
-      <p class="text-sm text-purple-600 mt-1">
+      <h2 class="text-xl font-semibold text-white">{{ request.user.get_full_name|default:request.user.username }}</h2>
+      <p class="text-sm text-gray-300">{{ request.user.email }}</p>
+      <p class="text-sm text-indigo-300 mt-1">
         {% if request.user.is_superuser %}
           Superuser
         {% elif request.user.role == 'admin' %}
@@ -32,14 +32,14 @@
           User
         {% endif %}
       </p>
-      <a href="{% url 'profile' %}" class="inline-block mt-2 text-sm text-indigo-600 hover:underline">Edit Profile →</a>
+      <a href="{% url 'profile' %}" class="inline-block mt-2 text-sm text-yellow-300 hover:underline">Edit Profile →</a>
     </div>
   </div>
 
   <!-- 🐙 GitHub Section -->
-  <div class="bg-white rounded-2xl shadow-lg p-6 border border-indigo-100 mb-6 transition-all duration-300 hover:shadow-xl">
+  <div class="card mb-6 transition-all duration-300 hover:shadow-xl">
     <div class="flex justify-between items-center mb-4">
-      <h2 class="text-xl font-bold text-indigo-800">🐙 GitHub Portfolio</h2>
+      <h2 class="text-xl font-bold text-white">🐙 GitHub Portfolio</h2>
       {% if not github_projects and not github_skills %}
         <a href="{% url 'github_login' %}" class="text-sm bg-indigo-600 text-white px-3 py-1 rounded hover:bg-indigo-700 transition">+ Connect GitHub</a>
       {% endif %}
@@ -47,8 +47,8 @@
 
     {% if github_projects %}
       <div class="mb-3">
-        <h3 class="font-semibold text-gray-700">Projects:</h3>
-        <ul class="list-disc list-inside text-sm text-gray-600">
+        <h3 class="font-semibold text-gray-200">Projects:</h3>
+        <ul class="list-disc list-inside text-sm text-gray-300">
           {% for project in github_projects %}
             <li>{{ project }}</li>
           {% endfor %}
@@ -58,8 +58,8 @@
 
     {% if github_skills %}
       <div>
-        <h3 class="font-semibold text-gray-700">Skills:</h3>
-        <p class="text-sm text-gray-600">{{ github_skills|join:", " }}</p>
+        <h3 class="font-semibold text-gray-200">Skills:</h3>
+        <p class="text-sm text-gray-300">{{ github_skills|join:", " }}</p>
       </div>
     {% endif %}
   </div>
@@ -67,17 +67,17 @@
   <!-- 📄 Resume Section -->
   <div class="mb-6">
     <div class="flex justify-between items-center mb-4">
-      <h2 class="text-xl font-bold text-indigo-800">📄 Your Resumes</h2>
+      <h2 class="text-xl font-bold text-white">📄 Your Resumes</h2>
       <a href="{% url 'resume_create' %}" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded text-sm shadow">+ Create New</a>
     </div>
 
     {% if resumes %}
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {% for resume in resumes %}
-          <div class="bg-white shadow rounded-2xl p-5 flex flex-col justify-between hover:shadow-lg transition">
+          <div class="card p-5 flex flex-col justify-between hover:shadow-lg transition">
             <div>
-              <h3 class="text-lg font-semibold text-gray-800">{{ resume.full_name }}</h3>
-              <p class="text-sm text-gray-500 mb-2">{{ resume.headline|default:"No headline" }}</p>
+              <h3 class="text-lg font-semibold text-white">{{ resume.full_name }}</h3>
+              <p class="text-sm text-gray-300 mb-2">{{ resume.headline|default:"No headline" }}</p>
 
               {% if resume.status %}
                 <span class="inline-block text-xs font-medium px-2 py-1 rounded-full mb-2
@@ -85,46 +85,46 @@
                   {% elif resume.status|lower == 'published' %} bg-green-100 text-green-800
                   {% elif resume.status|lower == 'job_ready' %} bg-blue-100 text-blue-800
                   {% elif resume.status|lower == 'archived' %} bg-gray-300 text-gray-700
-                  {% else %} bg-gray-100 text-gray-800 {% endif %}">
+                  {% else %} bg-gray-100 text-gray-800 {% endif %} shadow">
                   {{ resume.status|capfirst }}
                 </span>
               {% endif %}
 
               {% if resume.skills %}
-                <p class="text-sm text-gray-700 mt-2">
+                <p class="text-sm text-gray-200 mt-2">
                   <strong>Skills:</strong> {{ resume.skills }}
                 </p>
               {% endif %}
             </div>
 
-            <div class="mt-4 flex justify-between items-center text-sm">
-              <a href="{% url 'resume_update' resume.pk %}" class="text-indigo-600 hover:underline">Edit</a>
-              <a href="{% url 'resume_detail' resume.pk %}" class="text-blue-600 hover:underline">View</a>
+            <div class="mt-4 flex justify-between items-center text-sm text-indigo-300">
+              <a href="{% url 'resume_update' resume.pk %}" class="hover:underline">Edit</a>
+              <a href="{% url 'resume_detail' resume.pk %}" class="hover:underline">View</a>
               {% if resume.public_uuid %}
-                <a href="{% url 'public_resume' resume.public_uuid %}" class="text-green-600 hover:underline" target="_blank">Public</a>
+                <a href="{% url 'public_resume' resume.public_uuid %}" class="text-green-400 hover:underline" target="_blank">Public</a>
               {% endif %}
             </div>
           </div>
         {% endfor %}
       </div>
     {% else %}
-      <p class="text-sm text-gray-600">No resumes yet. Start by creating one!</p>
+      <p class="text-sm text-gray-300">No resumes yet. Start by creating one!</p>
     {% endif %}
   </div>
 
   <!-- 🛡️ Staff Panel -->
   {% if request.user.is_staff and not request.user.is_superuser %}
-    <div class="bg-white shadow rounded-xl p-6 mb-6 border-t-2 border-red-200">
-      <h2 class="text-lg font-semibold text-red-700 mb-2">🛡️ Staff Moderation Access</h2>
-      <a href="{% url 'staff_moderation_view' %}" class="text-sm text-indigo-600 hover:underline">Go to Moderation Panel →</a>
+    <div class="card mb-6 border-t-2 border-red-300">
+      <h2 class="text-lg font-semibold text-white mb-2">🛡️ Staff Moderation Access</h2>
+      <a href="{% url 'staff_moderation_view' %}" class="text-sm text-yellow-300 hover:underline">Go to Moderation Panel →</a>
     </div>
   {% endif %}
 
   <!-- ⚙️ Admin Tools -->
   {% if request.user.role == 'admin' and not request.user.is_superuser %}
-    <div class="bg-white shadow rounded-xl p-6 border-t-2 border-indigo-200">
-      <h2 class="text-lg font-semibold text-gray-800 mb-2">⚙️ Admin Tools</h2>
-      <a href="{% url 'admin_dashboard' %}" class="text-sm text-indigo-600 hover:underline">Open Admin Dashboard →</a>
+    <div class="card border-t-2 border-indigo-300">
+      <h2 class="text-lg font-semibold text-white mb-2">⚙️ Admin Tools</h2>
+      <a href="{% url 'admin_dashboard' %}" class="text-sm text-yellow-300 hover:underline">Open Admin Dashboard →</a>
     </div>
   {% endif %}
 </div>
