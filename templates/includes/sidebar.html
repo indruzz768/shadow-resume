@@ -20,7 +20,7 @@
     </a>
 
     {% if request.user.is_staff and not request.user.is_superuser %}
-      <a href="{% url 'staff_moderation' %}"
+      <a href="{% url 'staff_moderation_view' %}"
          class="flex items-center gap-3 px-3 py-2 rounded-md cursor-pointer text-red-600 hover:bg-red-50">
         <i class="fas fa-check-circle"></i> Moderation
       </a>
