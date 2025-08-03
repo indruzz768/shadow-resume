@@ -8,7 +8,7 @@
   <h1 class="text-2xl font-bold text-white mb-6">👋 Welcome, {{ request.user.first_name|default:request.user.username }}</h1>
 
   <!-- 👤 Profile Card -->
-  <div class="card flex items-center gap-6 mb-6 transition-all duration-300 hover:shadow-xl">
+  <div class="card card-accent-indigo flex items-center gap-6 mb-6">
     {% if request.user.profile_photo %}
       <img src="{{ request.user.profile_photo.url }}" alt="Profile Photo"
            class="h-20 w-20 rounded-full object-cover ring-2 ring-indigo-300">
@@ -17,19 +17,14 @@
         No Photo
       </div>
     {% endif %}
-
     <div>
       <h2 class="text-xl font-semibold text-white">{{ request.user.get_full_name|default:request.user.username }}</h2>
       <p class="text-sm text-gray-300">{{ request.user.email }}</p>
       <p class="text-sm text-indigo-300 mt-1">
-        {% if request.user.is_superuser %}
-          Superuser
-        {% elif request.user.role == 'admin' %}
-          Admin
-        {% elif request.user.is_staff %}
-          Staff
-        {% else %}
-          User
+        {% if request.user.is_superuser %} Superuser
+        {% elif request.user.role == 'admin' %} Admin
+        {% elif request.user.is_staff %} Staff
+        {% else %} User
         {% endif %}
       </p>
       <a href="{% url 'profile' %}" class="inline-block mt-2 text-sm text-yellow-300 hover:underline">Edit Profile →</a>
@@ -37,14 +32,13 @@
   </div>
 
   <!-- 🐙 GitHub Section -->
-  <div class="card mb-6 transition-all duration-300 hover:shadow-xl">
+  <div class="card card-accent-purple mb-6">
     <div class="flex justify-between items-center mb-4">
       <h2 class="text-xl font-bold text-white">🐙 GitHub Portfolio</h2>
       {% if not github_projects and not github_skills %}
         <a href="{% url 'github_login' %}" class="text-sm bg-indigo-600 text-white px-3 py-1 rounded hover:bg-indigo-700 transition">+ Connect GitHub</a>
       {% endif %}
     </div>
-
     {% if github_projects %}
       <div class="mb-3">
         <h3 class="font-semibold text-gray-200">Projects:</h3>
@@ -55,7 +49,6 @@
         </ul>
       </div>
     {% endif %}
-
     {% if github_skills %}
       <div>
         <h3 class="font-semibold text-gray-200">Skills:</h3>
@@ -74,11 +67,10 @@
     {% if resumes %}
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {% for resume in resumes %}
-          <div class="card p-5 flex flex-col justify-between hover:shadow-lg transition">
+          <div class="card card-accent-green p-5 flex flex-col justify-between hover:shadow-lg transition">
             <div>
               <h3 class="text-lg font-semibold text-white">{{ resume.full_name }}</h3>
               <p class="text-sm text-gray-300 mb-2">{{ resume.headline|default:"No headline" }}</p>
-
               {% if resume.status %}
                 <span class="inline-block text-xs font-medium px-2 py-1 rounded-full mb-2
                   {% if resume.status|lower == 'draft' %} bg-yellow-100 text-yellow-800
@@ -89,14 +81,12 @@
                   {{ resume.status|capfirst }}
                 </span>
               {% endif %}
-
               {% if resume.skills %}
                 <p class="text-sm text-gray-200 mt-2">
                   <strong>Skills:</strong> {{ resume.skills }}
                 </p>
               {% endif %}
             </div>
-
             <div class="mt-4 flex justify-between items-center text-sm text-indigo-300">
               <a href="{% url 'resume_update' resume.pk %}" class="hover:underline">Edit</a>
               <a href="{% url 'resume_detail' resume.pk %}" class="hover:underline">View</a>
@@ -114,7 +104,7 @@
 
   <!-- 🛡️ Staff Panel -->
   {% if request.user.is_staff and not request.user.is_superuser %}
-    <div class="card mb-6 border-t-2 border-red-300">
+    <div class="card card-accent-red mb-6">
       <h2 class="text-lg font-semibold text-white mb-2">🛡️ Staff Moderation Access</h2>
       <a href="{% url 'staff_moderation_view' %}" class="text-sm text-yellow-300 hover:underline">Go to Moderation Panel →</a>
     </div>
@@ -122,7 +112,7 @@
 
   <!-- ⚙️ Admin Tools -->
   {% if request.user.role == 'admin' and not request.user.is_superuser %}
-    <div class="card border-t-2 border-indigo-300">
+    <div class="card card-accent-blue">
       <h2 class="text-lg font-semibold text-white mb-2">⚙️ Admin Tools</h2>
       <a href="{% url 'admin_dashboard' %}" class="text-sm text-yellow-300 hover:underline">Open Admin Dashboard →</a>
     </div>
