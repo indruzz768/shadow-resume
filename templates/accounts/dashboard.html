@@ -110,7 +110,7 @@
   {% if request.user.is_staff and not request.user.is_superuser %}
     <div class="bg-white shadow rounded-xl p-6 mb-6">
       <h2 class="text-lg font-semibold text-red-700 mb-2">🛡️ Staff Moderation Access</h2>
-      <a href="{% url 'staff_moderation' %}" class="text-sm text-indigo-600 hover:underline">Go to Moderation Panel →</a>
+      <a href="{% url 'staff_moderation_view' %}" class="text-sm text-indigo-600 hover:underline">Go to Moderation Panel →</a>
     </div>
   {% endif %}
 
