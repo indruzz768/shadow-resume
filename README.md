@@ -72,6 +72,23 @@ python manage.py runserver
 
 /ai/extract-skills/ – AI skill extraction
 
+
+🔘  Why  We Have an "Extract Skills" Button?
+That's useful when:
+
+The resume was created before skill extraction existed.
+
+The user updates the summary/experience outside the API.
+
+The user wants to refresh or re-extract skills manually.
+
+So both methods are valid:
+
+✅ Auto skill extraction on creation – already working.
+
+🧠 Manual skill extraction via button – optional, useful for re-analysis.
+
+
 Uses DRF Token Authentication
 
 🧪 Running Tests

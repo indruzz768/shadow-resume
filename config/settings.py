@@ -221,7 +221,7 @@ LOGOUT_REDIRECT_URL = 'home'
 # External API settings (you'll need to get these from the services)
 GITHUB_CLIENT_ID = config('GITHUB_CLIENT_ID')
 GITHUB_CLIENT_SECRET = config('GITHUB_CLIENT_SECRET')
-GITHUB_REDIRECT_URI = 'https://shadow-resume.onrender.com/integrations/github/callback/'
+GITHUB_REDIRECT_URI = 'https://shadow-resume-1xxy.onrender.com/integrations/github/callback/'
 
 
 
