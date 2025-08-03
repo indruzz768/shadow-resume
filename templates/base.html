@@ -32,9 +32,16 @@
     <!-- Alpine JS -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
+    <!-- Background & Global Input Fix -->
     <style>
       body {
-        background: linear-gradient(to right, #232526, #414345); /* fallback dark gradient */
+        background: linear-gradient(to right, #232526, #414345);
+      }
+
+      /* Fix text visibility inside all input fields globally */
+      input, textarea, select {
+        color: #000 !important;
+        background-color: #fff !important;
       }
     </style>
   </head>
