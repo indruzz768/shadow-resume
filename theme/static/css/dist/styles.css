@@ -15,38 +15,6 @@
 
 .card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1);
-}
-
-/* NovoResume-style accent bar */
-.card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 6px;
-  width: 100%;
-  border-top-left-radius: 1rem;
-  border-top-right-radius: 1rem;
-}
-
-.card-accent-accent-indigo::before {
-  background: linear-gradient(to right, #6366f1, #8b5cf6); /* Indigo to Violet */
-}
-
-.card-accent-accent-green::before {
-  background: linear-gradient(to right, #10b981, #34d399); /* Emerald to Green */
-}
-
-.card-accent-accent-purple::before {
-  background: linear-gradient(to right, #a855f7, #d946ef); /* Purple to Pink */
-}
-
-.card-accent-accent-blue::before {
-  background: linear-gradient(to right, #3b82f6, #60a5fa); /* Blue */
-}
-
-.card-accent-accent-red::before {
-  background: linear-gradient(to right, #ef4444, #f87171); /* Red */
+  box-shadow: 0 10px 15px -3px rgb(255, 255, 255), 0 4px 6px -4px rgb(255, 255, 255);
 }
 
