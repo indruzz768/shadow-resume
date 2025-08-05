@@ -33,19 +33,19 @@
     </a>
   </div>
 
-  <!-- Resume Sections -->
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-    <div>
-      <h2 class="text-lg font-semibold text-gray-800 mb-1">📬 Contact Info</h2>
-      <p><strong>Email:</strong> {{ resume.email }}</p>
-      <p><strong>Phone:</strong> {{ resume.phone }}</p>
-      <p><strong>Address:</strong> {{ resume.address }}</p>
-    </div>
-    <div>
-      <h2 class="text-lg font-semibold text-gray-800 mb-1">🧑‍💼 Headline</h2>
-      <p>{{ resume.headline }}</p>
-    </div>
+<!-- Resume Sections -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+  <div>
+    <h2 class="text-lg font-semibold text-gray-800 mb-1">📬 Contact Info</h2>
+    <p class="text-gray-800"><strong>Email:</strong> {{ resume.email }}</p>
+    <p class="text-gray-800"><strong>Phone:</strong> {{ resume.phone }}</p>
+    <p class="text-gray-800"><strong>Address:</strong> {{ resume.address }}</p>
   </div>
+  <div>
+    <h2 class="text-lg font-semibold text-gray-800 mb-1">🧑‍💼 Headline</h2>
+    <p class="text-gray-800">{{ resume.headline }}</p>
+  </div>
+</div>
 
   <div>
     <h2 class="text-lg font-semibold text-gray-800 mb-1">📝 Summary</h2>
