@@ -74,6 +74,7 @@ python manage.py runserver
 
 
 🔘  Why  We Have an "Extract Skills" Button?
+
 That's useful when:
 
 The resume was created before skill extraction existed.

@@ -137,6 +137,7 @@ if RENDER:
         )
     }
 else:
+    
     # Local PostgreSQL
     DATABASES = {
         'default': {
@@ -146,6 +147,8 @@ else:
             'PASSWORD': config('LOCAL_DB_PASSWORD'),
             'HOST': config('LOCAL_DB_HOST', default='localhost'),
             'PORT': config('LOCAL_DB_PORT', default='5432'),
+            'CONN_MAX_AGE': 600,
+            'ssl_require': True,
         }
     }
 
