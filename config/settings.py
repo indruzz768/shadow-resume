@@ -126,32 +126,14 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
-RENDER = os.environ.get("RENDER", False)
-if RENDER:
-    # Render DB
-    DATABASES = {
-        'default': dj_database_url.config(
-            default=config('DATABASE_URL'),
-            conn_max_age=600,
-            ssl_require=True  # Use SSL for secure connections
-        )
-    }
-else:
-    
-    # Local PostgreSQL
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': config('LOCAL_DB_NAME'),
-            'USER': config('LOCAL_DB_USER'),
-            'PASSWORD': config('LOCAL_DB_PASSWORD'),
-            'HOST': config('LOCAL_DB_HOST', default='localhost'),
-            'PORT': config('LOCAL_DB_PORT', default='5432'),
-            'CONN_MAX_AGE': 600,
-            'ssl_require': True,
-        }
-    }
 
+DATABASES = {
+    'default': dj_database_url.config(
+        default=config('DATABASE_URL'),
+        conn_max_age=600,
+        ssl_require=True
+    )
+}
 # Custom User model
 AUTH_USER_MODEL = 'accounts.User'
 
